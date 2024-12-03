@@ -1,18 +1,39 @@
 <pre class='metadata'>
-Title: Your Spec Title
-Shortname: your-spec
+Title: RDF Time Series Snippets
+Shortname: RDF-TS-Snippets
 Level: 1
-Status: w3c/UD
-Repository: org/repo-name
+Status: LD
+Repository: ghsnd/rdf-ts-snippets-spec
 URL: http://example.com/url-this-spec-will-live-at
-Editor: Your Name, Your Company http://example.com/your-company, your-email@example.com, http://example.com/your-personal-website
-Abstract: A short description of your spec, one or two sentences.
-Complain About: accidental-2119 yes, missing-example-ids yes
+Editor: Gerald Haesendonck
+Abstract: This document specifies how time series data with with only a few changing values
+  can be described in RDF.
 Markup Shorthands: markdown yes, css no
 </pre>
 
-Introduction {#intro}
-=====================
+# Introduction
 
-Introduction here.
+<div class="informative">
+How to represent compact time series objects (Snippets) in RDF and what
+to take into account.
+
+As an example, here are two readings of a temperature sensor that produces
+a reading every hour of the day:
+
+<div class="example">
+  ```json
+  {
+    "id": "7b95fd70-1cc9-4bd4-92c7-e5cedea4b8ea",
+    "value": 5.4,
+    "timestamp": "2024-01-01T06:00:00Z"
+  }
+
+  {
+    "id": "7b95fd70-1cc9-4bd4-92c7-e5cedea4b8ea",
+    "value": 5.3,
+    "timestamp": "2024-01-01T07:00:00Z"
+  }
+  ```
+</div>
+</div>
 
