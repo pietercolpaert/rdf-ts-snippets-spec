@@ -28,4 +28,4 @@ jobs:
           # output filename defaults to your input
           # with .html extension instead,
           # but if you want to customize it:
-          DESTINATION: rdf-ts-spec.html
+          DESTINATION: index.html
