@@ -4,7 +4,7 @@ Shortname: RDF-TS-Snippets
 Level: 1
 Status: LD
 Repository: ghsnd/rdf-ts-snippets-spec
-URL: http://example.com/url-this-spec-will-live-at
+URL: https://ghsnd.github.io/rdf-ts-snippets-spec/
 Editor: Gerald Haesendonck
 Abstract: This document specifies how time series data with with only a few changing values
   can be described in RDF.
