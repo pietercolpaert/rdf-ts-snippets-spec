@@ -19,6 +19,7 @@ Time series data is everywhere.
 Representing time series data in RDF drastically raises the verbosity (citations...)
 This document introduces Snippets: compact RDF views over time series data.
 
+
 ## Time series data examples ## {#examples}
 
 As an example, here are some readings of a temperature sensor that produces
@@ -48,12 +49,25 @@ Example 1 become:
 As another example, consider a game during which some events occur:
 <div class="example" id="ex_game">
 ```json
-{"time": "00:00:00", "event": "start"}
+{"time": "00:00:00", "event": "Race starts"}
 {"time": "00:00:05", "event": "Bob first position"}
 {"time": "00:01:17", "event": "Alice first position"}
 {"time": "00:01:20", "event": "Joe falls off bike"}
 {"time": "00:01:27", "event": "Joe continues"}
+...
+{"time": "02:10:38", "event": "Race ends"}
 ```
 </div>
+
+Note: To do: figure out how to fit Example 3 in Snippets.
+
 </div>
 
+# Definitions
+
+- Definition of time series
+- Definition of Snippet
+
+# Snippet properties
+
+Explain every property of a Snippet (with examples).
