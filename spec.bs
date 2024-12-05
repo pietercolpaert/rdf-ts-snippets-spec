@@ -1,7 +1,8 @@
 <pre class='metadata'>
 Title: RDF Time Series Snippets
+Warning: Not Ready
 Shortname: RDF-TS-Snippets
-Level: 1
+Level: none
 Status: LD
 Repository: ghsnd/rdf-ts-snippets-spec
 URL: https://ghsnd.github.io/rdf-ts-snippets-spec/
@@ -11,29 +12,48 @@ Abstract: This document specifies how time series data with with only a few chan
 Markup Shorthands: markdown yes, css no
 </pre>
 
-# Introduction
+# Introduction # {#intro}
 
 <div class="informative">
-How to represent compact time series objects (Snippets) in RDF and what
-to take into account.
+Time series data is everywhere.
+Representing time series data in RDF drastically raises the verbosity (citations...)
+This document introduces Snippets: compact RDF views over time series data.
 
-As an example, here are two readings of a temperature sensor that produces
+## Time series data examples ## {#examples}
+
+As an example, here are some readings of a temperature sensor that produces
 a reading every hour of the day:
 
-<div class="example">
-  ```json
-  {
-    "id": "7b95fd70-1cc9-4bd4-92c7-e5cedea4b8ea",
-    "value": 5.4,
-    "timestamp": "2024-01-01T06:00:00Z"
-  }
+<div class="example" id="ex_temp">
+```json
+{"id": "1", "value": 5.4, "timestamp": "2024-01-01T06:00:00Z"}
+{"id": "2", "value": 5.2, "timestamp": "2024-01-01T06:59:59Z"}
+{"id": "3", "value": 5.2, "timestamp": "2024-01-01T08:00:02Z"}
+{"id": "4", "value": 6.1, "timestamp": "2024-01-01T09:00:00Z"}
+```
+</div>
 
-  {
-    "id": "7b95fd70-1cc9-4bd4-92c7-e5cedea4b8ea",
-    "value": 5.3,
-    "timestamp": "2024-01-01T07:00:00Z"
-  }
-  ```
+To save network bandwidth and computing resources, the sensor could also
+push readings only when the temperature changes. So the readings of
+Example 1 become:
+
+<div class="example" id="ex_temp2">
+```json
+{"id": "1", "value": 5.4, "timestamp": "2024-01-01T06:00:00Z"}
+{"id": "2", "value": 5.2, "timestamp": "2024-01-01T06:59:59Z"}
+{"id": "3", "value": 6.1, "timestamp": "2024-01-01T09:00:00Z"}
+```
+</div>
+
+As another example, consider a game during which some events occur:
+<div class="example" id="ex_game">
+```json
+{"time": "00:00:00", "event": "start"}
+{"time": "00:00:05", "event": "Bob first position"}
+{"time": "00:01:17", "event": "Alice first position"}
+{"time": "00:01:20", "event": "Joe falls off bike"}
+{"time": "00:01:27", "event": "Joe continues"}
+```
 </div>
 </div>
 
