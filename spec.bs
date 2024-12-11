@@ -61,13 +61,52 @@ As another example, consider a game during which some events occur:
 
 Note: To do: figure out how to fit Example 3 in Snippets.
 
+Using the Sensor, Observation, Sample, and Actuator ontology
+(SOSA, part of [[!VOCAB-SSN-20171019]]), [Example 1](#ex_temp) could be written as:
+
+<div class="example" id="ex_temp_ttl">
+```turtle
+<temperature/1>
+  a sosa:Observation ;
+  sosa:madeBySensor <temp_sensor_1> ;
+  sosa:hasSimpleResult "5.4"^^xsd:decimal ;
+  sosa:observedProperty: "temperature" ;
+  sosa:resultTime "2024-01-01T06:00:00Z"^^xsd:dateTime .
+
+<temperature/2>
+  a sosa:Observation ;
+  sosa:madeBySensor <temp_sensor_1> ;
+  sosa:hasSimpleResult "5.2"^^xsd:decimal ;
+  sosa:observedProperty: "temperature" ;
+  sosa:resultTime "2024-01-01T06:59:59Z"^^xsd:dateTime .
+
+<temperature/3>
+  a sosa:Observation ;
+  sosa:madeBySensor <temp_sensor_1> ;
+  sosa:hasSimpleResult "5.2"^^xsd:decimal ;
+  sosa:observedProperty: "temperature" ;
+  sosa:resultTime "2024-01-01T08:00:02Z"^^xsd:dateTime .
+
+<temperature/4>
+  a sosa:Observation ;
+  sosa:madeBySensor <temp_sensor_1> ;
+  sosa:hasSimpleResult "6.1"^^xsd:decimal ;
+  sosa:observedProperty: "temperature" ;
+  sosa:resultTime "2024-01-01T09:00:00Z"^^xsd:dateTime .
+```
 </div>
 
-# Definitions
+Note: For the sake of simplicity, the RDF representation of the examples
+in this section is abbreviated (e.g., no prefixes or base IRI) and the 
+ontologies used are not applied entirely correct.
+
+</div>
+
+# Definitions # {#definitions}
 
 - Definition of time series
 - Definition of Snippet
 
-# Snippet properties
+# Snippet properties # {#properties}
 
 Explain every property of a Snippet (with examples).
