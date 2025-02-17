@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0781e88e0, updated Fri Feb 14 13:26:46 2025 -0800" name="generator">
   <link href="https://dylanvanassche.github.io/rdf-ts-snippets-spec/" rel="canonical">
-  <meta content="ba94620220a3eebf91137be947969a347bfc7ce6" name="revision">
+  <meta content="73b198cef7683b32de31b3baead7a9136830e3ec" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -2290,8 +2290,10 @@ to represent measurements as a Literal over a period of time:</p>
     <c- p>{</c-> <c- s>'time'</c-><c- p>:</c-> <c- s>'2024-01-01T08:00:00Z'</c-><c- p>,</c-> <c- s>'value'</c-><c- p>:</c-> <c- s>'5.2'</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>},</c->
     <c- p>{</c-> <c- s>'time'</c-><c- p>:</c-> <c- s>'2024-01-01T09:00:00Z'</c-><c- p>,</c-> <c- s>'value'</c-><c- p>:</c-> <c- s>'6.1'</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>},</c->
   <c- p>]</c-><c- s>"^^cdt:List;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>start</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>end</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>period</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>dcat</c-><c- p>:</c-><c- f>PeriodOfTime</c-><c- p>;</c->
+    <c- nn>dact</c-><c- p>:</c-><c- f>startDate</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>;</c->
+    <c- nn>dcat</c-><c- p>:</c-><c- f>endDate</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>;</c->
+  <c- p>];</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
     <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-><c- p>;</c->
     <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- s>"temperature"</c-><c- p>;</c->
@@ -2308,9 +2310,7 @@ to represent measurements as a Literal over a period of time:</p>
      <li data-md>
       <p><code>tss:points</code>: a <code>cdt:List</code> of data points where each data point is a <code>cdt:Map</code>.</p>
      <li data-md>
-      <p><code>tss:start</code>: the start ISO timestamp (including) of the period covered by <code>tss:points</code>.</p>
-     <li data-md>
-      <p><code>tss:end</code>: the end ISO timestamp (including) of the period covered by <code>tss:points</code>.</p>
+      <p><code>tss:period</code>: a DCAT PeriodOfTime with a start and end ISO timestamp (including) of the period covered by <code>tss:points</code>.</p>
      <li data-md>
       <p><code>tss:about</code>: an entity description which provides the data points in <code>tss:points</code>.</p>
     </ul>

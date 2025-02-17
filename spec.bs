@@ -115,8 +115,10 @@ to represent measurements as a Literal over a period of time:
     { 'time': '2024-01-01T08:00:00Z', 'value': '5.2'^^xsd:double},
     { 'time': '2024-01-01T09:00:00Z', 'value': '6.1'^^xsd:double},
   ]"^^cdt:List;
-  tss:start "2024-01-01T00:00.00Z";
-  tss:end "2024-01-01T23:59:59Z";
+  tss:period [ a dcat:PeriodOfTime;
+    dact:startDate "2024-01-01T00:00.00Z";
+    dcat:endDate "2024-01-01T23:59:59Z";
+  ];
   tss:about [ a sosa:Observation;
     sosa:madeBySensor <temp_sensor_1>;
     sosa:observedProperty "temperature";
@@ -136,8 +138,7 @@ A <dfn>Snippet</dfn> describes a subset of a Time Series within a certain period
 Each Snippet has the following properties:
 
 - `tss:points`: a `cdt:List` of data points where each data point is a `cdt:Map`.
-- `tss:start`: the start ISO timestamp (including) of the period covered by `tss:points`.
-- `tss:end`: the end ISO timestamp (including) of the period covered by `tss:points`.
+- `tss:period`: a DCAT PeriodOfTime with a start and end ISO timestamp (including) of the period covered by `tss:points`.
 - `tss:about`: an entity description which provides the data points in `tss:points`.
 
 ## Points
