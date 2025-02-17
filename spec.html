@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0781e88e0, updated Fri Feb 14 13:26:46 2025 -0800" name="generator">
   <link href="https://dylanvanassche.github.io/rdf-ts-snippets-spec/" rel="canonical">
-  <meta content="73b198cef7683b32de31b3baead7a9136830e3ec" name="revision">
+  <meta content="65c823e0f7fd4facc8440c4d41be8dc42c519d6a" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -2180,13 +2180,14 @@ can be described in RDF.</p>
     <li>
      <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
      <ol class="toc">
-      <li><a href="#examples"><span class="secno">1.1</span> <span class="content">Time series data examples</span></a>
+      <li><a href="#vocabularies"><span class="secno">1.1</span> <span class="content">Vocabularies used in this specification</span></a>
+      <li><a href="#examples"><span class="secno">1.2</span> <span class="content">Time series data examples</span></a>
      </ol>
     <li><a href="#definitions"><span class="secno">2</span> <span class="content">Definitions</span></a>
     <li>
      <a href="#properties"><span class="secno">3</span> <span class="content">Snippet properties</span></a>
      <ol class="toc">
-      <li><a href="#points"><span class="secno">3.1</span> <span class="content">Points</span></a>
+      <li><a href="#points"><span class="secno">3.1</span> <span class="content">Points # {#points}</span></a>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
@@ -2207,7 +2208,12 @@ can be described in RDF.</p>
      Time series data is everywhere.
 Representing time series data in RDF drastically raises the verbosity (citations...)
 This document introduces Snippets: compact RDF views over time series data. 
-    <h3 class="heading settled" data-level="1.1" id="examples"><span class="secno">1.1. </span><span class="content">Time series data examples</span><a class="self-link" href="#examples"></a></h3>
+    <h3 class="heading settled" data-level="1.1" id="vocabularies"><span class="secno">1.1. </span><span class="content">Vocabularies used in this specification</span><a class="self-link" href="#vocabularies"></a></h3>
+    <p>| Vocabulary                                 | Prefix | IRI                                 |
+| ------------------------------------------ | ------ | ----------------------------------- |
+| Data Catalog Vocabulary (DCAT) - Version 3 | <code>dcat</code> | https://www.w3.org/TR/vocab-dcat-3/ |
+| Semantic Sensor Network Ontology           | <code>sosa</code> | https://www.w3.org/TR/vocab-ssn/    |</p>
+    <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Time series data examples</span><a class="self-link" href="#examples"></a></h3>
     <p>As an example, here are some readings of a temperature sensor that produces
 a reading every hour of the day:</p>
     <div class="example" id="ex_temp">
@@ -2291,7 +2297,7 @@ to represent measurements as a Literal over a period of time:</p>
     <c- p>{</c-> <c- s>'time'</c-><c- p>:</c-> <c- s>'2024-01-01T09:00:00Z'</c-><c- p>,</c-> <c- s>'value'</c-><c- p>:</c-> <c- s>'6.1'</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>},</c->
   <c- p>]</c-><c- s>"^^cdt:List;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>period</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>dcat</c-><c- p>:</c-><c- f>PeriodOfTime</c-><c- p>;</c->
-    <c- nn>dact</c-><c- p>:</c-><c- f>startDate</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>;</c->
+    <c- nn>dcat</c-><c- p>:</c-><c- f>startDate</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>;</c->
     <c- nn>dcat</c-><c- p>:</c-><c- f>endDate</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>;</c->
   <c- p>];</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
@@ -2314,7 +2320,7 @@ to represent measurements as a Literal over a period of time:</p>
      <li data-md>
       <p><code>tss:about</code>: an entity description which provides the data points in <code>tss:points</code>.</p>
     </ul>
-    <h3 class="heading settled" data-level="3.1" id="points"><span class="secno">3.1. </span><span class="content">Points</span><a class="self-link" href="#points"></a></h3>
+    <h3 class="heading settled" data-level="3.1" id="points"><span class="secno">3.1. </span><span class="content">Points # {#points}</span><a class="self-link" href="#points"></a></h3>
     <p><code>tss:points</code> MUST have a <code>cdt:List</code> as datatype. Each point itself MUST be a <code>cdt:Map</code> consisting
 of 2 properties:</p>
     <ul>

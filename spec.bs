@@ -20,6 +20,13 @@ Time series data is everywhere.
 Representing time series data in RDF drastically raises the verbosity (citations...)
 This document introduces Snippets: compact RDF views over time series data.
 
+## Vocabularies used in this specification ## {#vocabularies}
+
+| Vocabulary                                 | Prefix | IRI                                 |
+| ------------------------------------------ | ------ | ----------------------------------- |
+| Data Catalog Vocabulary (DCAT) - Version 3 | `dcat` | https://www.w3.org/TR/vocab-dcat-3/ |
+| Semantic Sensor Network Ontology           | `sosa` | https://www.w3.org/TR/vocab-ssn/    |
+
 
 ## Time series data examples ## {#examples}
 
@@ -116,7 +123,7 @@ to represent measurements as a Literal over a period of time:
     { 'time': '2024-01-01T09:00:00Z', 'value': '6.1'^^xsd:double},
   ]"^^cdt:List;
   tss:period [ a dcat:PeriodOfTime;
-    dact:startDate "2024-01-01T00:00.00Z";
+    dcat:startDate "2024-01-01T00:00.00Z";
     dcat:endDate "2024-01-01T23:59:59Z";
   ];
   tss:about [ a sosa:Observation;
@@ -141,7 +148,7 @@ Each Snippet has the following properties:
 - `tss:period`: a DCAT PeriodOfTime with a start and end ISO timestamp (including) of the period covered by `tss:points`.
 - `tss:about`: an entity description which provides the data points in `tss:points`.
 
-## Points
+## Points # {#points}
 
 `tss:points` MUST have a `cdt:List` as datatype. Each point itself MUST be a `cdt:Map` consisting
 of 2 properties:
