@@ -4,8 +4,8 @@ Warning: Not Ready
 Shortname: RDF-TS-Snippets
 Level: none
 Status: LD
-Repository: ghsnd/rdf-ts-snippets-spec
-URL: https://ghsnd.github.io/rdf-ts-snippets-spec/
+Repository: dylanvanassche/rdf-ts-snippets-spec
+URL: https://dylanvanassche.github.io/rdf-ts-snippets-spec/
 Editor: Gerald Haesendonck
 Editor: Dylan Van Assche
 Abstract: This document specifies how time series data with with only a few changing values
