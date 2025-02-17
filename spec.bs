@@ -7,6 +7,7 @@ Status: LD
 Repository: ghsnd/rdf-ts-snippets-spec
 URL: https://ghsnd.github.io/rdf-ts-snippets-spec/
 Editor: Gerald Haesendonck
+Editor: Dylan Van Assche
 Abstract: This document specifies how time series data with with only a few changing values
   can be described in RDF.
 Markup Shorthands: markdown yes, css no
@@ -100,13 +101,60 @@ Note: For the sake of simplicity, the RDF representation of the examples
 in this section is abbreviated (e.g., no prefixes or base IRI) and the 
 ontologies used are not applied entirely correct.
 
+However, this is very verbose which is where Snippets come in!
+Snippets use the [Common Data Types] (https://awslabs.github.io/SPARQL-CDTs/spec/latest.html)
+to represent measurements as a Literal over a period of time:
+
+<div class="example" id="ex_snippet_ttl">
+```turtle
+<snippet/2024-01-01>
+  a tss:Snippet;
+  tss:points "[
+    { 'time': '2024-01-01T06:00:00Z', 'value': '5.4'^^xsd:double},
+    { 'time': '2024-01-01T06:59:59Z', 'value': '5.2'^^xsd:double},
+    { 'time': '2024-01-01T08:00:00Z', 'value': '5.2'^^xsd:double},
+    { 'time': '2024-01-01T09:00:00Z', 'value': '6.1'^^xsd:double},
+  ]"^^cdt:List;
+  tss:start "2024-01-01T00:00.00Z";
+  tss:end "2024-01-01T23:59:59Z";
+  tss:about [ a sosa:Observation;
+    sosa:madeBySensor <temp_sensor_1>;
+    sosa:observedProperty "temperature";
+  ];
+.
+```
 </div>
 
 # Definitions # {#definitions}
 
-- Definition of time series
-- Definition of Snippet
+A <dfn>Time Series</dfn> is a set of data points ordered by timestamp, where each data point consists of a timestamp and corresponding value.
+
+A <dfn>Snippet</dfn> describes a subset of a Time Series within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.
 
 # Snippet properties # {#properties}
 
-Explain every property of a Snippet (with examples).
+Each Snippet has the following properties:
+
+- `tss:points`: a `cdt:List` of data points where each data point is a `cdt:Map`.
+- `tss:start`: the start ISO timestamp (including) of the period covered by `tss:points`.
+- `tss:end`: the end ISO timestamp (including) of the period covered by `tss:points`.
+- `tss:about`: an entity description which provides the data points in `tss:points`.
+
+## Points
+
+`tss:points` MUST have a `cdt:List` as datatype. Each point itself MUST be a `cdt:Map` consisting
+of 2 properties:
+  - `time`: the ISO timestamp of the data point.
+  - `value`: the value of the data point with corresponding datatype.
+
+<div class="example" id="ex_points">
+```json
+[
+    { 'time': '2024-01-01T06:00:00Z', 'value': '5.4'^^xsd:double},
+    { 'time': '2024-01-01T06:59:59Z', 'value': '5.2'^^xsd:double},
+    { 'time': '2024-01-01T08:00:00Z', 'value': '5.2'^^xsd:double},
+    { 'time': '2024-01-01T09:00:00Z', 'value': '6.1'^^xsd:double},
+]
+```
+</div>
+
