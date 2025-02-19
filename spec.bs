@@ -1,4 +1,4 @@
-<pre class='metadata'>
+<pre class="metadata">
 Title: RDF Time Series Snippets
 Warning: Not Ready
 Shortname: RDF-TS-Snippets
@@ -13,124 +13,78 @@ Abstract: This document specifies how time series data with with only a few chan
 Markup Shorthands: markdown yes, css no
 </pre>
 
+# Abstract # {#abstract}
+
+A RDF Time Series Snippet is a subset of a Time Series described in RDF.
+Snippets aim to be more compact compared to RDFS Collection and Containers for
+describing Time Series by levering the [Common Data Types](https://w3id.org/awslabs/neptune/SPARQL-CDTs/spec/latest.html).
+
 # Introduction # {#intro}
 
-<div class="informative">
-Time series data is everywhere.
-Representing time series data in RDF drastically raises the verbosity (citations...)
-This document introduces Snippets: compact RDF views over time series data.
+Sensor measurements, positioning data, etc. are commonly published as Time Series
+data with a timestamp and a value. 
+Representing Time Series data in RDF drastically raises the verbosity,
+which Time Series Snippets try to address by compacting the data points in subsets of a Time Series
+through Common Data Types such as `cdt:List` and `cdt:Map`.
 
-## Vocabularies used in this specification ## {#vocabularies}
+Note: Time Series Snippets can always be expanded into RDF without the need for Common Data Types.
 
-| Vocabulary                                 | Prefix | IRI                                 |
-| ------------------------------------------ | ------ | ----------------------------------- |
-| Data Catalog Vocabulary (DCAT) - Version 3 | `dcat` | https://www.w3.org/TR/vocab-dcat-3/ |
-| Semantic Sensor Network Ontology           | `sosa` | https://www.w3.org/TR/vocab-ssn/    |
+The following example shows a set of sensor values with Snippets and afterwards expanded to RDF:
 
-
-## Time series data examples ## {#examples}
-
-As an example, here are some readings of a temperature sensor that produces
-a reading every hour of the day:
-
-<div class="example" id="ex_temp">
-```json
-{"id": "1", "value": 5.4, "timestamp": "2024-01-01T06:00:00Z"}
-{"id": "2", "value": 5.2, "timestamp": "2024-01-01T06:59:59Z"}
-{"id": "3", "value": 5.2, "timestamp": "2024-01-01T08:00:02Z"}
-{"id": "4", "value": 6.1, "timestamp": "2024-01-01T09:00:00Z"}
+<div class="example" id="simple_example_snippet">
+```turtle
+<snippet/2024-01-01>
+  a tss:Snippet;
+  tss:points "[
+    { "time": "2024-01-01T06:00:00Z"^^xsd:dateTime, "value": "5.4"^^xsd:double, "id": "0"^^xsd:integer},
+    { "time": "2024-01-01T06:59:59Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "1"^^xsd:integer},
+    { "time": "2024-01-01T08:00:00Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "2"^^xsd:integer},
+    { "time": "2024-01-01T09:00:00Z"^^xsd:dateTime, "value": "6.1"^^xsd:double, "id": "3"^^xsd:integer},
+  ]"^^cdt:List;
+  tss:from "2024-01-01T00:00.00Z"^^xsd:dateTime;
+  tss:until "2024-01-01T23:59:59Z"^^xsd:dateTime;
+  tss:pointType sosa:Observation;
+  tss:timePath sosa:resultTime;
+  tss:valuePath sosa:hasSimpleResult;
+  tss:identifierPath dcterms:identifier;
+  tss:about [
+    sosa:madeBySensor <temp_sensor_1>;
+    sosa:observedProperty <temperature>;
+  ];
+.
 ```
 </div>
 
-To save network bandwidth and computing resources, the sensor could also
-push readings only when the temperature changes. So the readings of
-Example 1 become:
 
-<div class="example" id="ex_temp2">
-```json
-{"id": "1", "value": 5.4, "timestamp": "2024-01-01T06:00:00Z"}
-{"id": "2", "value": 5.2, "timestamp": "2024-01-01T06:59:59Z"}
-{"id": "3", "value": 6.1, "timestamp": "2024-01-01T09:00:00Z"}
-```
-</div>
-
-As another example, consider a game during which some events occur:
-<div class="example" id="ex_game">
-```json
-{"time": "00:00:00", "event": "Race starts"}
-{"time": "00:00:05", "event": "Bob first position"}
-{"time": "00:01:17", "event": "Alice first position"}
-{"time": "00:01:20", "event": "Joe falls off bike"}
-{"time": "00:01:27", "event": "Joe continues"}
-...
-{"time": "02:10:38", "event": "Race ends"}
-```
-</div>
-
-Note: To do: figure out how to fit Example 3 in Snippets.
-
-Using the Sensor, Observation, Sample, and Actuator ontology
-(SOSA, part of [[!VOCAB-SSN-20171019]]), [Example 1](#ex_temp) could be written as:
-
-<div class="example" id="ex_temp_ttl">
+<div class="example" id="simple_example_rdf">
 ```turtle
 <temperature/1>
   a sosa:Observation ;
   sosa:madeBySensor <temp_sensor_1> ;
   sosa:hasSimpleResult "5.4"^^xsd:decimal ;
-  sosa:observedProperty: "temperature" ;
+  sosa:observedProperty: <temperature> ;
   sosa:resultTime "2024-01-01T06:00:00Z"^^xsd:dateTime .
 
 <temperature/2>
   a sosa:Observation ;
   sosa:madeBySensor <temp_sensor_1> ;
   sosa:hasSimpleResult "5.2"^^xsd:decimal ;
-  sosa:observedProperty: "temperature" ;
+  sosa:observedProperty: <temperature> ;
   sosa:resultTime "2024-01-01T06:59:59Z"^^xsd:dateTime .
 
 <temperature/3>
   a sosa:Observation ;
   sosa:madeBySensor <temp_sensor_1> ;
   sosa:hasSimpleResult "5.2"^^xsd:decimal ;
-  sosa:observedProperty: "temperature" ;
+  sosa:observedProperty: <temperature> ;
   sosa:resultTime "2024-01-01T08:00:02Z"^^xsd:dateTime .
 
 <temperature/4>
   a sosa:Observation ;
   sosa:madeBySensor <temp_sensor_1> ;
   sosa:hasSimpleResult "6.1"^^xsd:decimal ;
-  sosa:observedProperty: "temperature" ;
+  sosa:observedProperty: <temperature> ;
   sosa:resultTime "2024-01-01T09:00:00Z"^^xsd:dateTime .
-```
-</div>
-
-Note: For the sake of simplicity, the RDF representation of the examples
-in this section is abbreviated (e.g., no prefixes or base IRI) and the 
-ontologies used are not applied entirely correct.
-
-However, this is very verbose which is where Snippets come in!
-Snippets use the [Common Data Types] (https://awslabs.github.io/SPARQL-CDTs/spec/latest.html)
-to represent measurements as a Literal over a period of time:
-
-<div class="example" id="ex_snippet_ttl">
-```turtle
-<snippet/2024-01-01>
-  a tss:Snippet;
-  tss:points "[
-    { 'time': '2024-01-01T06:00:00Z', 'value': '5.4'^^xsd:double},
-    { 'time': '2024-01-01T06:59:59Z', 'value': '5.2'^^xsd:double},
-    { 'time': '2024-01-01T08:00:00Z', 'value': '5.2'^^xsd:double},
-    { 'time': '2024-01-01T09:00:00Z', 'value': '6.1'^^xsd:double},
-  ]"^^cdt:List;
-  tss:period [ a dcat:PeriodOfTime;
-    dcat:startDate "2024-01-01T00:00.00Z";
-    dcat:endDate "2024-01-01T23:59:59Z";
-  ];
-  tss:about [ a sosa:Observation;
-    sosa:madeBySensor <temp_sensor_1>;
-    sosa:observedProperty "temperature";
-  ];
-.
 ```
 </div>
 
@@ -140,29 +94,142 @@ A <dfn>Time Series</dfn> is a set of data points ordered by timestamp, where eac
 
 A <dfn>Snippet</dfn> describes a subset of a Time Series within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.
 
+A <dfn>Data Point</dfn> is a single point of a Time Series containing an ISO timestamp, a value with datatype, and optionally an identifier.
+
 # Snippet properties # {#properties}
 
 Each Snippet has the following properties:
 
 - `tss:points`: a `cdt:List` of data points where each data point is a `cdt:Map`.
-- `tss:period`: a DCAT PeriodOfTime with a start and end ISO timestamp (including) of the period covered by `tss:points`.
+- `tss:from`: start ISO timestamp (including) of the period covered by `tss:points`.
+- `tss:to`: end ISO timestamp (excluding) of the period covered by `tss:points`.
 - `tss:about`: an entity description which provides the data points in `tss:points`.
+- `tss:pointType`: the RDF type of the data points in `tss:points`.
+- `tss:timePath`: the term to use for expanding the `time` property in `tss:points`.
+- `tss:valuePath`: the term to use for expanding the `value` property in `tss:points`.
+- `tss:identifierPath`: the term to use for expanding the optional `id` property in `tss:points`.
 
-## Points # {#points}
+All properties are required except `tss:identifierPath`.
+
+## Points ## {#points}
 
 `tss:points` MUST have a `cdt:List` as datatype. Each point itself MUST be a `cdt:Map` consisting
-of 2 properties:
-  - `time`: the ISO timestamp of the data point.
+of 2 required properties and 1 optional property:
+  - `time`: the ISO timestamp of the data point (`xsd:dateTime`).
   - `value`: the value of the data point with corresponding datatype.
+  - `id`: the data point identifier, optionally.
+
+All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a Snippet.
 
 <div class="example" id="ex_points">
 ```json
 [
-    { 'time': '2024-01-01T06:00:00Z', 'value': '5.4'^^xsd:double},
-    { 'time': '2024-01-01T06:59:59Z', 'value': '5.2'^^xsd:double},
-    { 'time': '2024-01-01T08:00:00Z', 'value': '5.2'^^xsd:double},
-    { 'time': '2024-01-01T09:00:00Z', 'value': '6.1'^^xsd:double},
+    { "time": "2024-01-01T06:00:00Z"^^xsd:dateTime, "value": "5.4"^^xsd:double, "id": "0"^^xsd:integer },
+    { "time": "2024-01-01T06:59:59Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "1"^^xsd:integer },
+    { "time": "2024-01-01T08:00:00Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "2"^^xsd:integer },
+    { "time": "2024-01-01T09:00:00Z"^^xsd:dateTime, "value": "6.1"^^xsd:double, "id": "3"^^xsd:integer },
 ]
 ```
 </div>
 
+Points can have extended values as well such as `cdt:Map` to allow complex values to be included:
+
+<div class="example" id="ex_snippet_advanced_ttl">
+```turtle
+<snippet/2024-01-01>
+  a tss:Snippet;
+  tss:points "[
+    { 
+      "time": "2024-01-01T06:00:00Z",
+      "value": "{
+        "latitude": "50.000000"^^xsd:double,
+        "longitude": "4.000000"^^xsd:double,
+        "temperature": "5.21"^^xsd:double
+      }"^^cdt:Map
+    },
+    { 
+      "time": "2024-01-01T07:00:00Z",
+      "value": "{
+        "latitude": "50.100000"^^xsd:double,
+        "longitude": "4.100000"^^xsd:double,
+        "temperature": "7.61"^^xsd:double
+      }"^^cdt:Map
+    },
+    { 
+      "time": "2024-01-01T08:00:00Z",
+      "value": "{
+        "latitude": "50.200000"^^xsd:double,
+        "longitude": "4.200000"^^xsd:double,
+        "temperature": "4.21"^^xsd:double
+      }"^^cdt:Map
+    }
+  ]"^^cdt:List;
+  tss:from "2024-01-01T00:00.00Z"^^xsd:dateTime;
+  tss:until "2024-01-01T23:59:59Z"^^xsd:dateTime;
+  tss:pointType sosa:Observation;
+  tss:timePath sosa:resultTime;
+  tss:valuePath sosa:hasSimpleResult;
+  tss:about [
+    sosa:madeBySensor <temp_sensor_1>;
+    sosa:observedProperty <temperature>;
+  ];
+.
+```
+</div>
+
+Note: this is incompatible with paths! A possibility here is to allow the following:
+
+```turtle
+<snippet/2024-01-01>
+  a tss:Snippet;
+  tss:points "[
+    { 
+      "time": "2024-01-01T06:00:00Z",
+      "value": "{
+        "latitude": "50.000000"^^xsd:double,
+        "longitude": "4.000000"^^xsd:double,
+        "temperature": "5.21"^^xsd:double
+      }"^^cdt:Map
+    },
+    { 
+      "time": "2024-01-01T07:00:00Z",
+      "value": "{
+        "latitude": "50.100000"^^xsd:double,
+        "longitude": "4.100000"^^xsd:double,
+        "temperature": "7.61"^^xsd:double
+      }"^^cdt:Map
+    },
+    { 
+      "time": "2024-01-01T08:00:00Z",
+      "value": "{
+        "latitude": "50.200000"^^xsd:double,
+        "longitude": "4.200000"^^xsd:double,
+        "temperature": "4.21"^^xsd:double
+      }"^^cdt:Map
+    }
+  ]"^^cdt:List;
+  tss:from "2024-01-01T00:00.00Z"^^xsd:dateTime;
+  tss:until "2024-01-01T23:59:59Z"^^xsd:dateTime;
+  tss:pointType sosa:Observation;
+  tss:timePath sosa:resultTime;
+  tss:valuePath [ a tss:Path
+    tss:path "latitude";
+    tss:term geo:latitude;
+  ];
+  tss:valuePath [ a tss:Path
+    tss:path "longitude";
+    tss:term geo:longitude;
+  ];
+  tss:valuePath [ a tss:Path
+    tss:path "temperature";
+    tss:term sosa:hasSimpleResult;
+  ];
+  tss:identifierPath dcterms:identifier;
+  tss:about [
+    sosa:madeBySensor <temp_sensor_1>;
+    sosa:observedProperty <temperature>;
+  ];
+.
+```
+
+Specifying the term immediately is a shortcut for defining a full `tss:Path`.

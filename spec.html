@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0781e88e0, updated Fri Feb 14 13:26:46 2025 -0800" name="generator">
   <link href="https://dylanvanassche.github.io/rdf-ts-snippets-spec/" rel="canonical">
-  <meta content="65c823e0f7fd4facc8440c4d41be8dc42c519d6a" name="revision">
+  <meta content="041cbac557cbd167cc1629984c3564100a39de59" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -2139,7 +2139,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">RDF Time Series Snippets</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Living Document, <time class="dt-updated" datetime="2025-02-17">17 February 2025</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Living Document, <time class="dt-updated" datetime="2025-02-19">19 February 2025</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2162,7 +2162,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    </div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" height="15" src="https://licensebuttons.net/p/zero/1.0/80x15.png" width="80"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 17 February 2025,
+In addition, as of 19 February 2025,
 the editors have made this specification available under the <a href="https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2177,17 +2177,13 @@ can be described in RDF.</p>
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
+    <li><a href="#abstract①"><span class="secno">1</span> <span class="content">Abstract</span></a>
+    <li><a href="#intro"><span class="secno">2</span> <span class="content">Introduction</span></a>
+    <li><a href="#definitions"><span class="secno">3</span> <span class="content">Definitions</span></a>
     <li>
-     <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <a href="#properties"><span class="secno">4</span> <span class="content">Snippet properties</span></a>
      <ol class="toc">
-      <li><a href="#vocabularies"><span class="secno">1.1</span> <span class="content">Vocabularies used in this specification</span></a>
-      <li><a href="#examples"><span class="secno">1.2</span> <span class="content">Time series data examples</span></a>
-     </ol>
-    <li><a href="#definitions"><span class="secno">2</span> <span class="content">Definitions</span></a>
-    <li>
-     <a href="#properties"><span class="secno">3</span> <span class="content">Snippet properties</span></a>
-     <ol class="toc">
-      <li><a href="#points"><span class="secno">3.1</span> <span class="content">Points # {#points}</span></a>
+      <li><a href="#points"><span class="secno">4.1</span> <span class="content">Points</span></a>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
@@ -2203,143 +2199,215 @@ can be described in RDF.</p>
    </ol>
   </nav>
   <main>
-   <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
-   <div class="informative">
-     Time series data is everywhere.
-Representing time series data in RDF drastically raises the verbosity (citations...)
-This document introduces Snippets: compact RDF views over time series data. 
-    <h3 class="heading settled" data-level="1.1" id="vocabularies"><span class="secno">1.1. </span><span class="content">Vocabularies used in this specification</span><a class="self-link" href="#vocabularies"></a></h3>
-    <p>| Vocabulary                                 | Prefix | IRI                                 |
-| ------------------------------------------ | ------ | ----------------------------------- |
-| Data Catalog Vocabulary (DCAT) - Version 3 | <code>dcat</code> | https://www.w3.org/TR/vocab-dcat-3/ |
-| Semantic Sensor Network Ontology           | <code>sosa</code> | https://www.w3.org/TR/vocab-ssn/    |</p>
-    <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Time series data examples</span><a class="self-link" href="#examples"></a></h3>
-    <p>As an example, here are some readings of a temperature sensor that produces
-a reading every hour of the day:</p>
-    <div class="example" id="ex_temp">
-     <a class="self-link" href="#ex_temp"></a> 
-<pre class="language-json highlight"><c- p>{</c-><c- f>"id"</c-><c- p>:</c-> <c- u>"1"</c-><c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- mf>5.4</c-><c- p>,</c-> <c- f>"timestamp"</c-><c- p>:</c-> <c- u>"2024-01-01T06:00:00Z"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"id"</c-><c- p>:</c-> <c- u>"2"</c-><c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- mf>5.2</c-><c- p>,</c-> <c- f>"timestamp"</c-><c- p>:</c-> <c- u>"2024-01-01T06:59:59Z"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"id"</c-><c- p>:</c-> <c- u>"3"</c-><c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- mf>5.2</c-><c- p>,</c-> <c- f>"timestamp"</c-><c- p>:</c-> <c- u>"2024-01-01T08:00:02Z"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"id"</c-><c- p>:</c-> <c- u>"4"</c-><c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- mf>6.1</c-><c- p>,</c-> <c- f>"timestamp"</c-><c- p>:</c-> <c- u>"2024-01-01T09:00:00Z"</c-><c- p>}</c->
+   <h2 class="heading settled" data-level="1" id="abstract①"><span class="secno">1. </span><span class="content">Abstract</span><a class="self-link" href="#abstract①"></a></h2>
+   <p>A RDF Time Series Snippet is a subset of a Time Series described in RDF.
+Snippets aim to be more compact compared to RDFS Collection and Containers for
+describing Time Series by levering the <a href="https://w3id.org/awslabs/neptune/SPARQL-CDTs/spec/latest.html">Common Data Types</a>.</p>
+   <h2 class="heading settled" data-level="2" id="intro"><span class="secno">2. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
+   <p>Sensor measurements, positioning data, etc. are commonly published as Time Series
+data with a timestamp and a value. 
+Representing Time Series data in RDF drastically raises the verbosity,
+which Time Series Snippets try to address by compacting the data points in subsets of a Time Series
+through Common Data Types such as <code>cdt:List</code> and <code>cdt:Map</code>.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> Time Series Snippets can always be expanded into RDF without the need for Common Data Types.</p>
+   <p>The following example shows a set of sensor values with Snippets and afterwards expanded to RDF:</p>
+   <div class="example" id="simple_example_snippet">
+    <a class="self-link" href="#simple_example_snippet"></a> 
+<pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
+  <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.4"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"0"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"1"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T08:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T09:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"6.1"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"3"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
+  <c- p>]</c-><c- s>"^^cdt:List;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>pointType</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>timePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>identifierPath</c-> <c- nn>dcterms</c-><c- p>:</c-><c- f>identifier</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- g>&lt;temperature></c-><c- p>;</c->
+  <c- p>];</c->
+<c- p>.</c->
 </pre>
-    </div>
-    <p>To save network bandwidth and computing resources, the sensor could also
-push readings only when the temperature changes. So the readings of
-Example 1 become:</p>
-    <div class="example" id="ex_temp2">
-     <a class="self-link" href="#ex_temp2"></a> 
-<pre class="language-json highlight"><c- p>{</c-><c- f>"id"</c-><c- p>:</c-> <c- u>"1"</c-><c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- mf>5.4</c-><c- p>,</c-> <c- f>"timestamp"</c-><c- p>:</c-> <c- u>"2024-01-01T06:00:00Z"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"id"</c-><c- p>:</c-> <c- u>"2"</c-><c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- mf>5.2</c-><c- p>,</c-> <c- f>"timestamp"</c-><c- p>:</c-> <c- u>"2024-01-01T06:59:59Z"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"id"</c-><c- p>:</c-> <c- u>"3"</c-><c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- mf>6.1</c-><c- p>,</c-> <c- f>"timestamp"</c-><c- p>:</c-> <c- u>"2024-01-01T09:00:00Z"</c-><c- p>}</c->
-</pre>
-    </div>
-    <p>As another example, consider a game during which some events occur:</p>
-    <div class="example" id="ex_game">
-     <a class="self-link" href="#ex_game"></a> 
-<pre class="language-json highlight"><c- p>{</c-><c- f>"time"</c-><c- p>:</c-> <c- u>"00:00:00"</c-><c- p>,</c-> <c- f>"event"</c-><c- p>:</c-> <c- u>"Race starts"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"time"</c-><c- p>:</c-> <c- u>"00:00:05"</c-><c- p>,</c-> <c- f>"event"</c-><c- p>:</c-> <c- u>"Bob first position"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"time"</c-><c- p>:</c-> <c- u>"00:01:17"</c-><c- p>,</c-> <c- f>"event"</c-><c- p>:</c-> <c- u>"Alice first position"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"time"</c-><c- p>:</c-> <c- u>"00:01:20"</c-><c- p>,</c-> <c- f>"event"</c-><c- p>:</c-> <c- u>"Joe falls off bike"</c-><c- p>}</c->
-<c- p>{</c-><c- f>"time"</c-><c- p>:</c-> <c- u>"00:01:27"</c-><c- p>,</c-> <c- f>"event"</c-><c- p>:</c-> <c- u>"Joe continues"</c-><c- p>}</c->
-...
-<c- p>{</c-><c- f>"time"</c-><c- p>:</c-> <c- u>"02:10:38"</c-><c- p>,</c-> <c- f>"event"</c-><c- p>:</c-> <c- u>"Race ends"</c-><c- p>}</c->
-</pre>
-    </div>
-    <p class="note" role="note"><span class="marker">Note:</span> To do: figure out how to fit Example 3 in Snippets.</p>
-    <p>Using the Sensor, Observation, Sample, and Actuator ontology
-(SOSA, part of <a data-link-type="biblio" href="#biblio-vocab-ssn-20171019" title="Semantic Sensor Network Ontology">[VOCAB-SSN-20171019]</a>), <a href="#ex_temp">Example 1</a> could be written as:</p>
-    <div class="example" id="ex_temp_ttl">
-     <a class="self-link" href="#ex_temp_ttl"></a> 
+   </div>
+   <div class="example" id="simple_example_rdf">
+    <a class="self-link" href="#simple_example_rdf"></a> 
 <pre class="language-turtle highlight"><c- g>&lt;temperature/1></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"5.4"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- s>"temperature"</c-> <c- p>;</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 
 <c- g>&lt;temperature/2></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- s>"temperature"</c-> <c- p>;</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T06:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 
 <c- g>&lt;temperature/3></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- s>"temperature"</c-> <c- p>;</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T08:00:02Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 
 <c- g>&lt;temperature/4></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"6.1"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- s>"temperature"</c-> <c- p>;</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T09:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 </pre>
-    </div>
-    <p class="note" role="note"><span class="marker">Note:</span> For the sake of simplicity, the RDF representation of the examples
-in this section is abbreviated (e.g., no prefixes or base IRI) and the 
-ontologies used are not applied entirely correct.</p>
-    <p>However, this is very verbose which is where Snippets come in!
-Snippets use the [Common Data Types] (https://awslabs.github.io/SPARQL-CDTs/spec/latest.html)
-to represent measurements as a Literal over a period of time:</p>
-    <div class="example" id="ex_snippet_ttl">
-     <a class="self-link" href="#ex_snippet_ttl"></a> 
+   </div>
+   <h2 class="heading settled" data-level="3" id="definitions"><span class="secno">3. </span><span class="content">Definitions</span><a class="self-link" href="#definitions"></a></h2>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="time-series">Time Series</dfn> is a set of data points ordered by timestamp, where each data point consists of a timestamp and corresponding value.</p>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="snippet">Snippet</dfn> describes a subset of a Time Series within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.</p>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="data-point">Data Point</dfn> is a single point of a Time Series containing an ISO timestamp, a value with datatype, and optionally an identifier.</p>
+   <h2 class="heading settled" data-level="4" id="properties"><span class="secno">4. </span><span class="content">Snippet properties</span><a class="self-link" href="#properties"></a></h2>
+   <p>Each Snippet has the following properties:</p>
+   <ul>
+    <li data-md>
+     <p><code>tss:points</code>: a <code>cdt:List</code> of data points where each data point is a <code>cdt:Map</code>.</p>
+    <li data-md>
+     <p><code>tss:from</code>: start ISO timestamp (including) of the period covered by <code>tss:points</code>.</p>
+    <li data-md>
+     <p><code>tss:to</code>: end ISO timestamp (excluding) of the period covered by <code>tss:points</code>.</p>
+    <li data-md>
+     <p><code>tss:about</code>: an entity description which provides the data points in <code>tss:points</code>.</p>
+    <li data-md>
+     <p><code>tss:pointType</code>: the RDF type of the data points in <code>tss:points</code>.</p>
+    <li data-md>
+     <p><code>tss:timePath</code>: the term to use for expanding the <code>time</code> property in <code>tss:points</code>.</p>
+    <li data-md>
+     <p><code>tss:valuePath</code>: the term to use for expanding the <code>value</code> property in <code>tss:points</code>.</p>
+    <li data-md>
+     <p><code>tss:identifierPath</code>: the term to use for expanding the optional <code>id</code> property in <code>tss:points</code>.</p>
+   </ul>
+   <p>All properties are required except <code>tss:identifierPath</code>.</p>
+   <h3 class="heading settled" data-level="4.1" id="points"><span class="secno">4.1. </span><span class="content">Points</span><a class="self-link" href="#points"></a></h3>
+   <p><code>tss:points</code> MUST have a <code>cdt:List</code> as datatype. Each point itself MUST be a <code>cdt:Map</code> consisting
+of 2 required properties and 1 optional property:</p>
+   <ul>
+    <li data-md>
+     <p><code>time</code>: the ISO timestamp of the data point (<code>xsd:dateTime</code>).</p>
+    <li data-md>
+     <p><code>value</code>: the value of the data point with corresponding datatype.</p>
+    <li data-md>
+     <p><code>id</code>: the data point identifier, optionally.</p>
+   </ul>
+   <p>All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a Snippet.</p>
+   <div class="example" id="ex_points">
+    <a class="self-link" href="#ex_points"></a> 
+<pre class="language-json highlight"><c- p>[</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T06:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.4"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"0"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T06:59:59Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.2"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"1"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T08:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.2"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"2"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T09:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"6.1"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"3"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+<c- p>]</c->
+</pre>
+   </div>
+   <p>Points can have extended values as well such as <code>cdt:Map</code> to allow complex values to be included:</p>
+   <div class="example" id="ex_snippet_advanced_ttl">
+    <a class="self-link" href="#ex_snippet_advanced_ttl"></a> 
 <pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
   <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
-    <c- p>{</c-> <c- s>'time'</c-><c- p>:</c-> <c- s>'2024-01-01T06:00:00Z'</c-><c- p>,</c-> <c- s>'value'</c-><c- p>:</c-> <c- s>'5.4'</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>},</c->
-    <c- p>{</c-> <c- s>'time'</c-><c- p>:</c-> <c- s>'2024-01-01T06:59:59Z'</c-><c- p>,</c-> <c- s>'value'</c-><c- p>:</c-> <c- s>'5.2'</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>},</c->
-    <c- p>{</c-> <c- s>'time'</c-><c- p>:</c-> <c- s>'2024-01-01T08:00:00Z'</c-><c- p>,</c-> <c- s>'value'</c-><c- p>:</c-> <c- s>'5.2'</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>},</c->
-    <c- p>{</c-> <c- s>'time'</c-><c- p>:</c-> <c- s>'2024-01-01T09:00:00Z'</c-><c- p>,</c-> <c- s>'value'</c-><c- p>:</c-> <c- s>'6.1'</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>},</c->
+    <c- p>{</c-> 
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>,</c->
+      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
+        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"5.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
+      <c- p>}</c-><c- s>"^^cdt:Map</c->
+    <c- p>},</c->
+    <c- p>{</c-> 
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T07:00:00Z"</c-><c- p>,</c->
+      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
+        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"7.61"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
+      <c- p>}</c-><c- s>"^^cdt:Map</c->
+    <c- p>},</c->
+    <c- p>{</c-> 
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T08:00:00Z"</c-><c- p>,</c->
+      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
+        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"4.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
+      <c- p>}</c-><c- s>"^^cdt:Map</c->
+    <c- p>}</c->
   <c- p>]</c-><c- s>"^^cdt:List;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>period</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>dcat</c-><c- p>:</c-><c- f>PeriodOfTime</c-><c- p>;</c->
-    <c- nn>dcat</c-><c- p>:</c-><c- f>startDate</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>;</c->
-    <c- nn>dcat</c-><c- p>:</c-><c- f>endDate</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>;</c->
-  <c- p>];</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>pointType</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>timePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c->
     <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-><c- p>;</c->
-    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- s>"temperature"</c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- g>&lt;temperature></c-><c- p>;</c->
   <c- p>];</c->
 <c- p>.</c->
 </pre>
-    </div>
-    <h2 class="heading settled" data-level="2" id="definitions"><span class="secno">2. </span><span class="content">Definitions</span><a class="self-link" href="#definitions"></a></h2>
-    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="time-series">Time Series</dfn> is a set of data points ordered by timestamp, where each data point consists of a timestamp and corresponding value.</p>
-    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="snippet">Snippet</dfn> describes a subset of a Time Series within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.</p>
-    <h2 class="heading settled" data-level="3" id="properties"><span class="secno">3. </span><span class="content">Snippet properties</span><a class="self-link" href="#properties"></a></h2>
-    <p>Each Snippet has the following properties:</p>
-    <ul>
-     <li data-md>
-      <p><code>tss:points</code>: a <code>cdt:List</code> of data points where each data point is a <code>cdt:Map</code>.</p>
-     <li data-md>
-      <p><code>tss:period</code>: a DCAT PeriodOfTime with a start and end ISO timestamp (including) of the period covered by <code>tss:points</code>.</p>
-     <li data-md>
-      <p><code>tss:about</code>: an entity description which provides the data points in <code>tss:points</code>.</p>
-    </ul>
-    <h3 class="heading settled" data-level="3.1" id="points"><span class="secno">3.1. </span><span class="content">Points # {#points}</span><a class="self-link" href="#points"></a></h3>
-    <p><code>tss:points</code> MUST have a <code>cdt:List</code> as datatype. Each point itself MUST be a <code>cdt:Map</code> consisting
-of 2 properties:</p>
-    <ul>
-     <li data-md>
-      <p><code>time</code>: the ISO timestamp of the data point.</p>
-     <li data-md>
-      <p><code>value</code>: the value of the data point with corresponding datatype.</p>
-    </ul>
-    <div class="example" id="ex_points">
-     <a class="self-link" href="#ex_points"></a> 
-<pre class="language-json highlight"><c- p>[</c->
-    <c- p>{</c-> '<c- kc>t</c->ime'<c- p>:</c-> '<c- mi>2024-01-01</c->T<c- mi>06</c-><c- p>:</c-><c- mi>00</c-><c- p>:</c-><c- mi>00</c->Z'<c- p>,</c-> 'value'<c- p>:</c-> '<c- mf>5.4</c->'^^xsd<c- p>:</c->double<c- p>},</c->
-    <c- p>{</c-> '<c- kc>t</c->ime'<c- p>:</c-> '<c- mi>2024-01-01</c->T<c- mi>06</c-><c- p>:</c-><c- mi>59</c-><c- p>:</c-><c- mi>59</c->Z'<c- p>,</c-> 'value'<c- p>:</c-> '<c- mf>5.2</c->'^^xsd<c- p>:</c->double<c- p>},</c->
-    <c- p>{</c-> '<c- kc>t</c->ime'<c- p>:</c-> '<c- mi>2024-01-01</c->T<c- mi>08</c-><c- p>:</c-><c- mi>00</c-><c- p>:</c-><c- mi>00</c->Z'<c- p>,</c-> 'value'<c- p>:</c-> '<c- mf>5.2</c->'^^xsd<c- p>:</c->double<c- p>},</c->
-    <c- p>{</c-> '<c- kc>t</c->ime'<c- p>:</c-> '<c- mi>2024-01-01</c->T<c- mi>09</c-><c- p>:</c-><c- mi>00</c-><c- p>:</c-><c- mi>00</c->Z'<c- p>,</c-> 'value'<c- p>:</c-> '<c- mf>6.1</c->'^^xsd<c- p>:</c->double<c- p>},</c->
-<c- p>]</c->
-</pre>
-    </div>
    </div>
+   <p class="note" role="note"><span class="marker">Note:</span> this is incompatible with paths! A possibility here is to allow the following:</p>
+<pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
+  <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
+    <c- p>{</c-> 
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>,</c->
+      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
+        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"5.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
+      <c- p>}</c-><c- s>"^^cdt:Map</c->
+    <c- p>},</c->
+    <c- p>{</c-> 
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T07:00:00Z"</c-><c- p>,</c->
+      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
+        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"7.61"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
+      <c- p>}</c-><c- s>"^^cdt:Map</c->
+    <c- p>},</c->
+    <c- p>{</c-> 
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T08:00:00Z"</c-><c- p>,</c->
+      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
+        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
+        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"4.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
+      <c- p>}</c-><c- s>"^^cdt:Map</c->
+    <c- p>}</c->
+  <c- p>]</c-><c- s>"^^cdt:List;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>pointType</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>timePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Path</c->
+    <c- nn>tss</c-><c- p>:</c-><c- f>path</c-> <c- s>"latitude"</c-><c- p>;</c->
+    <c- nn>tss</c-><c- p>:</c-><c- f>term</c-> <c- nn>geo</c-><c- p>:</c-><c- f>latitude</c-><c- p>;</c->
+  <c- p>];</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Path</c->
+    <c- nn>tss</c-><c- p>:</c-><c- f>path</c-> <c- s>"longitude"</c-><c- p>;</c->
+    <c- nn>tss</c-><c- p>:</c-><c- f>term</c-> <c- nn>geo</c-><c- p>:</c-><c- f>longitude</c-><c- p>;</c->
+  <c- p>];</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Path</c->
+    <c- nn>tss</c-><c- p>:</c-><c- f>path</c-> <c- s>"temperature"</c-><c- p>;</c->
+    <c- nn>tss</c-><c- p>:</c-><c- f>term</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-><c- p>;</c->
+  <c- p>];</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>identifierPath</c-> <c- nn>dcterms</c-><c- p>:</c-><c- f>identifier</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- g>&lt;temperature></c-><c- p>;</c->
+  <c- p>];</c->
+<c- p>.</c->
+</pre>
+   <p>Specifying the term immediately is a shortcut for defining a full <code>tss:Path</code>.</p>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -2490,16 +2558,15 @@ of 2 properties:</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#snippet">Snippet</a><span>, in § 2</span>
-   <li><a href="#time-series">Time Series</a><span>, in § 2</span>
+   <li><a href="#data-point">Data Point</a><span>, in § 3</span>
+   <li><a href="#snippet">Snippet</a><span>, in § 3</span>
+   <li><a href="#time-series">Time Series</a><span>, in § 3</span>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
-   <dt id="biblio-vocab-ssn-20171019">[VOCAB-SSN-20171019]
-   <dd>Armin Haller; et al. <a href="https://www.w3.org/TR/2017/REC-vocab-ssn-20171019/"><cite>Semantic Sensor Network Ontology</cite></a>. URL: <a href="https://www.w3.org/TR/2017/REC-vocab-ssn-20171019/">https://www.w3.org/TR/2017/REC-vocab-ssn-20171019/</a>
   </dl>
 <script>/* Boilerplate: script-dom-helper */
 "use strict";
@@ -2701,6 +2768,7 @@ function parseHTML(markup) {
 "use strict";
 {
 let dfnPanelData = {
+"data-point": {"dfnID":"data-point","dfnText":"Data Point","external":false,"refSections":[],"url":"#data-point"},
 "snippet": {"dfnID":"snippet","dfnText":"Snippet","external":false,"refSections":[],"url":"#snippet"},
 "time-series": {"dfnID":"time-series","dfnText":"Time Series","external":false,"refSections":[],"url":"#time-series"},
 };
