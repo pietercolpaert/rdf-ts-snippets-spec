@@ -8,28 +8,21 @@ Repository: dylanvanassche/rdf-ts-snippets-spec
 URL: https://dylanvanassche.github.io/rdf-ts-snippets-spec/
 Editor: Gerald Haesendonck
 Editor: Dylan Van Assche
-Abstract: This document specifies how time series data with with only a few changing values
-  can be described in RDF.
+Abstract: A RDF Time Series Snippet is a subset of a Time Series described in RDF. [=Snippet=]s aim to be more compact compared to RDFS Collection and Containers for describing Time Series by levering the Common Data Types.
 Markup Shorthands: markdown yes, css no
 </pre>
 
-# Abstract # {#abstract}
-
-A RDF Time Series Snippet is a subset of a Time Series described in RDF.
-Snippets aim to be more compact compared to RDFS Collection and Containers for
-describing Time Series by levering the [Common Data Types](https://w3id.org/awslabs/neptune/SPARQL-CDTs/spec/latest.html).
-
 # Introduction # {#intro}
 
-Sensor measurements, positioning data, etc. are commonly published as Time Series
+Sensor measurements, positioning data, etc. are commonly published as [=Time Series=]
 data with a timestamp and a value. 
-Representing Time Series data in RDF drastically raises the verbosity,
-which Time Series Snippets try to address by compacting the data points in subsets of a Time Series
-through Common Data Types such as `cdt:List` and `cdt:Map`.
+Representing [=Time Series=] data in RDF drastically raises the verbosity,
+which Time Series Snippets try to address by compacting the data points in subsets of a [=Time Series=]
+through [Common Data Types](https://w3id.org/awslabs/neptune/SPARQL-CDTs/spec/latest.html) such as `cdt:List` and `cdt:Map`.
 
 Note: Time Series Snippets can always be expanded into RDF without the need for Common Data Types.
 
-The following example shows a set of sensor values with Snippets and afterwards expanded to RDF:
+The following example shows a set of sensor values with [=Snippet=]s and afterwards expanded to RDF:
 
 <div class="example" id="simple_example_snippet">
 ```turtle
@@ -92,13 +85,13 @@ The following example shows a set of sensor values with Snippets and afterwards 
 
 A <dfn>Time Series</dfn> is a set of data points ordered by timestamp, where each data point consists of a timestamp and corresponding value.
 
-A <dfn>Snippet</dfn> describes a subset of a Time Series within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.
+A <dfn>Snippet</dfn> describes a subset of a [=Time Series=] within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.
 
-A <dfn>Data Point</dfn> is a single point of a Time Series containing an ISO timestamp, a value with datatype, and optionally an identifier.
+A <dfn>Data Point</dfn> is a single point of a [=Time Series=] containing an ISO timestamp, a value with datatype, and optionally an identifier.
 
 # Snippet properties # {#properties}
 
-Each Snippet has the following properties:
+A [=Snippet=] MUST have the following properties:
 
 - `tss:points`: a `cdt:List` of data points where each data point is a `cdt:Map`.
 - `tss:from`: start ISO timestamp (including) of the period covered by `tss:points`.
@@ -107,19 +100,20 @@ Each Snippet has the following properties:
 - `tss:pointType`: the RDF type of the data points in `tss:points`.
 - `tss:timePath`: the term to use for expanding the `time` property in `tss:points`.
 - `tss:valuePath`: the term to use for expanding the `value` property in `tss:points`.
+
+A [=Snippet=] MAY also have the following properties:
+
 - `tss:identifierPath`: the term to use for expanding the optional `id` property in `tss:points`.
 
-All properties are required except `tss:identifierPath`.
+## Data Points ## {#data-points}
 
-## Points ## {#points}
-
-`tss:points` MUST have a `cdt:List` as datatype. Each point itself MUST be a `cdt:Map` consisting
+`tss:points` MUST have a `cdt:List` as datatype. Each [=Data Point=] itself MUST be a `cdt:Map` consisting
 of 2 required properties and 1 optional property:
   - `time`: the ISO timestamp of the data point (`xsd:dateTime`).
   - `value`: the value of the data point with corresponding datatype.
   - `id`: the data point identifier, optionally.
 
-All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a Snippet.
+All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a [=Snippet=].
 
 <div class="example" id="ex_points">
 ```json
@@ -132,7 +126,7 @@ All properties of datapoints are expandable to RDF, the RDF terms to use are def
 ```
 </div>
 
-Points can have extended values as well such as `cdt:Map` to allow complex values to be included:
+[=Data Point=]s can have extended values as well such as `cdt:Map` to allow complex values to be included:
 
 <div class="example" id="ex_snippet_advanced_ttl">
 ```turtle
