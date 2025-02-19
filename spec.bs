@@ -98,12 +98,25 @@ A [=Snippet=] MUST have the following properties:
 - `tss:to`: end ISO timestamp (excluding) of the period covered by `tss:points`.
 - `tss:about`: an entity description which provides the data points in `tss:points`.
 - `tss:pointType`: the RDF type of the data points in `tss:points`.
-- `tss:timePath`: the term to use for expanding the `time` property in `tss:points`.
-- `tss:valuePath`: the term to use for expanding the `value` property in `tss:points`.
+- `tss:timePath`: an entity of type `tss:Path` or the term to use for expanding the `time` property in `tss:points`.
+- `tss:valuePath`: an entity of type `tss:Path` or the term to use for expanding the `value` property in `tss:points`.
 
 A [=Snippet=] MAY also have the following properties:
 
-- `tss:identifierPath`: the term to use for expanding the optional `id` property in `tss:points`.
+- `tss:identifierPath`: an entity of type `tss:Path` or the term to use for expanding the optional `id` property in `tss:points`.
+
+## Paths ## {#paths}
+
+A [=Snippet=] has multiple path descriptions to define the mapping between CDT and RDF.
+Each of these path descriptions expect an RDF term to use during expansion.
+If nested CDT are used, multiple path descriptions MAY be described, each of type `tss:Path`.
+
+A `tss:Path` MUST have the following properties:
+
+- `tss:term`: the RDF term to use during expansion of the path.
+- `tss:path`: the property name to match with the RDF term.
+
+Note: Using the RDF term directly for paths is a shortcut of `tss:Path` which can only be used when a simple datatypes are present.
 
 ## Data Points ## {#data-points}
 
@@ -126,53 +139,12 @@ All properties of datapoints are expandable to RDF, the RDF terms to use are def
 ```
 </div>
 
-[=Data Point=]s can have extended values as well such as `cdt:Map` to allow complex values to be included:
+## Extended Data Points ## {#extended-data-points}
+
+[=Data Point=]s can have extended values as well such as `cdt:Map` to allow complex values to be included.
+The RDF expansion is defined for each property in the `cdt:Map` by a `tss:Path`:
 
 <div class="example" id="ex_snippet_advanced_ttl">
-```turtle
-<snippet/2024-01-01>
-  a tss:Snippet;
-  tss:points "[
-    { 
-      "time": "2024-01-01T06:00:00Z",
-      "value": "{
-        "latitude": "50.000000"^^xsd:double,
-        "longitude": "4.000000"^^xsd:double,
-        "temperature": "5.21"^^xsd:double
-      }"^^cdt:Map
-    },
-    { 
-      "time": "2024-01-01T07:00:00Z",
-      "value": "{
-        "latitude": "50.100000"^^xsd:double,
-        "longitude": "4.100000"^^xsd:double,
-        "temperature": "7.61"^^xsd:double
-      }"^^cdt:Map
-    },
-    { 
-      "time": "2024-01-01T08:00:00Z",
-      "value": "{
-        "latitude": "50.200000"^^xsd:double,
-        "longitude": "4.200000"^^xsd:double,
-        "temperature": "4.21"^^xsd:double
-      }"^^cdt:Map
-    }
-  ]"^^cdt:List;
-  tss:from "2024-01-01T00:00.00Z"^^xsd:dateTime;
-  tss:until "2024-01-01T23:59:59Z"^^xsd:dateTime;
-  tss:pointType sosa:Observation;
-  tss:timePath sosa:resultTime;
-  tss:valuePath sosa:hasSimpleResult;
-  tss:about [
-    sosa:madeBySensor <temp_sensor_1>;
-    sosa:observedProperty <temperature>;
-  ];
-.
-```
-</div>
-
-Note: this is incompatible with paths! A possibility here is to allow the following:
-
 ```turtle
 <snippet/2024-01-01>
   a tss:Snippet;
@@ -225,5 +197,4 @@ Note: this is incompatible with paths! A possibility here is to allow the follow
   ];
 .
 ```
-
-Specifying the term immediately is a shortcut for defining a full `tss:Path`.
+</div>

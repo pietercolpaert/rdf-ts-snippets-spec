@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0781e88e0, updated Fri Feb 14 13:26:46 2025 -0800" name="generator">
   <link href="https://dylanvanassche.github.io/rdf-ts-snippets-spec/" rel="canonical">
-  <meta content="bec45d3825b2b425abddfd02c1d38b69ad67b9d5" name="revision">
+  <meta content="c6016f51a7d3cb65269d042f79d88be0ca1aefff" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -2214,7 +2214,9 @@ Parts of this work may be from another specification document.  If so, those par
     <li>
      <a href="#properties"><span class="secno">3</span> <span class="content">Snippet properties</span></a>
      <ol class="toc">
-      <li><a href="#data-points"><span class="secno">3.1</span> <span class="content">Data Points</span></a>
+      <li><a href="#paths"><span class="secno">3.1</span> <span class="content">Paths</span></a>
+      <li><a href="#data-points"><span class="secno">3.2</span> <span class="content">Data Points</span></a>
+      <li><a href="#extended-data-points"><span class="secno">3.3</span> <span class="content">Extended Data Points</span></a>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
@@ -2308,16 +2310,28 @@ which Time Series Snippets try to address by compacting the data points in subse
     <li data-md>
      <p><code>tss:pointType</code>: the RDF type of the data points in <code>tss:points</code>.</p>
     <li data-md>
-     <p><code>tss:timePath</code>: the term to use for expanding the <code>time</code> property in <code>tss:points</code>.</p>
+     <p><code>tss:timePath</code>: an entity of type <code>tss:Path</code> or the term to use for expanding the <code>time</code> property in <code>tss:points</code>.</p>
     <li data-md>
-     <p><code>tss:valuePath</code>: the term to use for expanding the <code>value</code> property in <code>tss:points</code>.</p>
+     <p><code>tss:valuePath</code>: an entity of type <code>tss:Path</code> or the term to use for expanding the <code>value</code> property in <code>tss:points</code>.</p>
    </ul>
    <p>A <a data-link-type="dfn" href="#snippet" id="ref-for-snippet③">Snippet</a> MAY also have the following properties:</p>
    <ul>
     <li data-md>
-     <p><code>tss:identifierPath</code>: the term to use for expanding the optional <code>id</code> property in <code>tss:points</code>.</p>
+     <p><code>tss:identifierPath</code>: an entity of type <code>tss:Path</code> or the term to use for expanding the optional <code>id</code> property in <code>tss:points</code>.</p>
    </ul>
-   <h3 class="heading settled" data-level="3.1" id="data-points"><span class="secno">3.1. </span><span class="content">Data Points</span><a class="self-link" href="#data-points"></a></h3>
+   <h3 class="heading settled" data-level="3.1" id="paths"><span class="secno">3.1. </span><span class="content">Paths</span><a class="self-link" href="#paths"></a></h3>
+   <p>A <a data-link-type="dfn" href="#snippet" id="ref-for-snippet④">Snippet</a> has multiple path descriptions to define the mapping between CDT and RDF.
+Each of these path descriptions expect an RDF term to use during expansion.
+If nested CDT are used, multiple path descriptions MAY be described, each of type <code>tss:Path</code>.</p>
+   <p>A <code>tss:Path</code> MUST have the following properties:</p>
+   <ul>
+    <li data-md>
+     <p><code>tss:term</code>: the RDF term to use during expansion of the path.</p>
+    <li data-md>
+     <p><code>tss:path</code>: the property name to match with the RDF term.</p>
+   </ul>
+   <p class="note" role="note"><span class="marker">Note:</span> Using the RDF term directly for paths is a shortcut of <code>tss:Path</code> which can only be used when a simple datatypes are present.</p>
+   <h3 class="heading settled" data-level="3.2" id="data-points"><span class="secno">3.2. </span><span class="content">Data Points</span><a class="self-link" href="#data-points"></a></h3>
    <p><code>tss:points</code> MUST have a <code>cdt:List</code> as datatype. Each <a data-link-type="dfn" href="#data-point" id="ref-for-data-point">Data Point</a> itself MUST be a <code>cdt:Map</code> consisting
 of 2 required properties and 1 optional property:</p>
    <ul>
@@ -2328,7 +2342,7 @@ of 2 required properties and 1 optional property:</p>
     <li data-md>
      <p><code>id</code>: the data point identifier, optionally.</p>
    </ul>
-   <p>All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a <a data-link-type="dfn" href="#snippet" id="ref-for-snippet④">Snippet</a>.</p>
+   <p>All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a <a data-link-type="dfn" href="#snippet" id="ref-for-snippet⑤">Snippet</a>.</p>
    <div class="example" id="ex_points">
     <a class="self-link" href="#ex_points"></a> 
 <pre class="language-json highlight"><c- p>[</c->
@@ -2339,50 +2353,11 @@ of 2 required properties and 1 optional property:</p>
 <c- p>]</c->
 </pre>
    </div>
-   <p><a data-link-type="dfn" href="#data-point" id="ref-for-data-point①">Data Point</a>s can have extended values as well such as <code>cdt:Map</code> to allow complex values to be included:</p>
+   <h3 class="heading settled" data-level="3.3" id="extended-data-points"><span class="secno">3.3. </span><span class="content">Extended Data Points</span><a class="self-link" href="#extended-data-points"></a></h3>
+   <p><a data-link-type="dfn" href="#data-point" id="ref-for-data-point①">Data Point</a>s can have extended values as well such as <code>cdt:Map</code> to allow complex values to be included.
+The RDF expansion is defined for each property in the <code>cdt:Map</code> by a <code>tss:Path</code>:</p>
    <div class="example" id="ex_snippet_advanced_ttl">
     <a class="self-link" href="#ex_snippet_advanced_ttl"></a> 
-<pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
-  <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
-    <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>,</c->
-      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
-        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"5.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
-      <c- p>}</c-><c- s>"^^cdt:Map</c->
-    <c- p>},</c->
-    <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T07:00:00Z"</c-><c- p>,</c->
-      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
-        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"7.61"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
-      <c- p>}</c-><c- s>"^^cdt:Map</c->
-    <c- p>},</c->
-    <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T08:00:00Z"</c-><c- p>,</c->
-      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
-        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"4.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
-      <c- p>}</c-><c- s>"^^cdt:Map</c->
-    <c- p>}</c->
-  <c- p>]</c-><c- s>"^^cdt:List;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>pointType</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>timePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c->
-    <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-><c- p>;</c->
-    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- g>&lt;temperature></c-><c- p>;</c->
-  <c- p>];</c->
-<c- p>.</c->
-</pre>
-   </div>
-   <p class="note" role="note"><span class="marker">Note:</span> this is incompatible with paths! A possibility here is to allow the following:</p>
 <pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
   <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
@@ -2434,7 +2409,7 @@ of 2 required properties and 1 optional property:</p>
   <c- p>];</c->
 <c- p>.</c->
 </pre>
-   <p>Specifying the term immediately is a shortcut for defining a full <code>tss:Path</code>.</p>
+   </div>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -2795,8 +2770,8 @@ function parseHTML(markup) {
 "use strict";
 {
 let dfnPanelData = {
-"data-point": {"dfnID":"data-point","dfnText":"Data Point","external":false,"refSections":[{"refs":[{"id":"ref-for-data-point"},{"id":"ref-for-data-point\u2460"}],"title":"3.1. Data Points"}],"url":"#data-point"},
-"snippet": {"dfnID":"snippet","dfnText":"Snippet","external":false,"refSections":[{"refs":[{"id":"ref-for-snippet\u2460"}],"title":"1. Introduction"},{"refs":[{"id":"ref-for-snippet\u2461"},{"id":"ref-for-snippet\u2462"}],"title":"3. Snippet properties"},{"refs":[{"id":"ref-for-snippet\u2463"}],"title":"3.1. Data Points"}],"url":"#snippet"},
+"data-point": {"dfnID":"data-point","dfnText":"Data Point","external":false,"refSections":[{"refs":[{"id":"ref-for-data-point"}],"title":"3.2. Data Points"},{"refs":[{"id":"ref-for-data-point\u2460"}],"title":"3.3. Extended Data Points"}],"url":"#data-point"},
+"snippet": {"dfnID":"snippet","dfnText":"Snippet","external":false,"refSections":[{"refs":[{"id":"ref-for-snippet\u2460"}],"title":"1. Introduction"},{"refs":[{"id":"ref-for-snippet\u2461"},{"id":"ref-for-snippet\u2462"}],"title":"3. Snippet properties"},{"refs":[{"id":"ref-for-snippet\u2463"}],"title":"3.1. Paths"},{"refs":[{"id":"ref-for-snippet\u2464"}],"title":"3.2. Data Points"}],"url":"#snippet"},
 "time-series": {"dfnID":"time-series","dfnText":"Time Series","external":false,"refSections":[{"refs":[{"id":"ref-for-time-series"},{"id":"ref-for-time-series\u2460"},{"id":"ref-for-time-series\u2461"}],"title":"1. Introduction"},{"refs":[{"id":"ref-for-time-series\u2462"},{"id":"ref-for-time-series\u2463"}],"title":"2. Definitions"}],"url":"#time-series"},
 };
 
