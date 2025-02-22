@@ -8,7 +8,7 @@ Repository: dylanvanassche/rdf-ts-snippets-spec
 URL: https://dylanvanassche.github.io/rdf-ts-snippets-spec/
 Editor: Gerald Haesendonck
 Editor: Dylan Van Assche
-Editor: [Pieter Colpaert](https://pietercolpaert.be/#me)
+Editor: Pieter Colpaert
 Abstract: An RDF Time Series Snippet is a segment of data points from a time series dataset, typically used for analysis or visualization. The specification uses [SPARQL Common Data Types](https://awslabs.github.io/SPARQL-CDTs/spec/latest.html) coined by AWS Lab to encode the data points in a values literal. The entity can then be used for annotating this snippet, which is a time interval subset of a potentially larger time series.
 Markup Shorthands: markdown yes, css no
 </pre>
@@ -24,12 +24,12 @@ A first example illustrates the features of a `tss:Snippet`:
 ```turtle
 <snippet/2026-01-01>
   a tss:Snippet;
-  tss:points "[
+  tss:points """[
     { "time": "2026-01-01T06:00:00Z"^^xsd:dateTime, "value": "5.4"^^xsd:double, "id": "0"},
     { "time": "2026-01-01T06:59:59Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "1"},
     { "time": "2026-01-01T08:00:00Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "2"},
     { "time": "2026-01-01T09:00:00Z"^^xsd:dateTime, "value": "6.1"^^xsd:double, "id": "3"},
-  ]"^^cdt:List;
+  ]"""^^cdt:List;
   tss:from "2026-01-01T00:00.00Z"^^xsd:dateTime;
   tss:until "2026-01-01T23:59:59Z"^^xsd:dateTime;
   tss:pointType sosa:Observation;
@@ -123,12 +123,12 @@ of 2 required properties and 1 optional property:
 All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a Snippet.
 
 <div class="example" id="ex_points">
-```json
+```turtle
 [
-    { "time": "2026-01-01T06:00:00Z"^^xsd:dateTime, "value": "5.4"^^xsd:double, "id": "0"^^xsd:integer },
-    { "time": "2026-01-01T06:59:59Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "1"^^xsd:integer },
-    { "time": "2026-01-01T08:00:00Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "2"^^xsd:integer },
-    { "time": "2026-01-01T09:00:00Z"^^xsd:dateTime, "value": "6.1"^^xsd:double, "id": "3"^^xsd:integer },
+    { "time": "2026-01-01T06:00:00Z"^^xsd:dateTime, "value": "5.4"^^xsd:double, "id": "0" },
+    { "time": "2026-01-01T06:59:59Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "1" },
+    { "time": "2026-01-01T08:00:00Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "2" },
+    { "time": "2026-01-01T09:00:00Z"^^xsd:dateTime, "value": "6.1"^^xsd:double, "id": "3" },
 ]
 ```
 </div>
@@ -142,7 +142,7 @@ The RDF expansion is defined for each property in the `cdt:Map` by a `tss:Path`:
 ```turtle
 <snippet/2026-01-01>
   a tss:Snippet;
-  tss:points "[
+  tss:points """[
     { 
       "time": "2026-01-01T06:00:00Z",
       "value": "{
@@ -167,7 +167,7 @@ The RDF expansion is defined for each property in the `cdt:Map` by a `tss:Path`:
         "temperature": "4.21"^^xsd:double
       }"^^cdt:Map
     }
-  ]"^^cdt:List;
+  ]"""^^cdt:List;
   tss:from "2026-01-01T00:00.00Z"^^xsd:dateTime;
   tss:until "2026-01-01T23:59:59Z"^^xsd:dateTime;
   tss:pointType sosa:Observation;
