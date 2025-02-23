@@ -5,12 +5,8 @@
 # Length difference: 20651 characters
 # Number of triples: 500
 
-
-
-@prefix tss: <https://w3id.org/tss#> .
-@prefix xsd: <https://w3id.org/tss#> .
-@prefix sosa: <https://w3id.org/tss#> .
-@prefix cdt: <https://> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
 
 <0> 
    a sosa:Observation ; 

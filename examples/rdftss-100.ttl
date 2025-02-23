@@ -6,9 +6,9 @@
 ## Number of triples: 9
 
 @prefix tss: <https://w3id.org/tss#> .
-@prefix xsd: <https://w3id.org/tss#> .
-@prefix sosa: <https://w3id.org/tss#> .
-@prefix cdt: <https://> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix cdt: <http://w3id.org/awslabs/neptune/SPARQL-CDTs/> .
 <snippet/2026-01-01>
   a tss:Snippet;
   tss:points """
