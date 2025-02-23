@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0781e88e0, updated Fri Feb 14 13:26:46 2025 -0800" name="generator">
   <link href="https://dylanvanassche.github.io/rdf-ts-snippets-spec/" rel="canonical">
-  <meta content="041cbac557cbd167cc1629984c3564100a39de59" name="revision">
+  <meta content="c2b8b73d6a21f507ff6da1537c6fec7335d5ca22" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -1955,6 +1955,39 @@ a[href].issue-return {
     margin-bottom: 0;
 }
 </style>
+<style>/* Boilerplate: style-ref-hints */
+:root {
+    --ref-hint-bg: #ddd;
+    --ref-hint-text: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ref-hint-bg: #222;
+        --ref-hint-text: var(--text);
+    }
+}
+
+.ref-hint {
+    display: inline-block;
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.5em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--ref-hint-bg);
+    color: var(--ref-hint-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+
+.ref-hint * { margin: 0; padding: 0; text-indent: 0; }
+
+.ref-hint ul { padding: 0 0 0 1em; list-style: none; }
+</style>
 <style>/* Boilerplate: style-selflinks */
 :root {
     --selflink-text: white;
@@ -2139,16 +2172,18 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">RDF Time Series Snippets</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Living Document, <time class="dt-updated" datetime="2025-02-19">19 February 2025</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Living Document, <time class="dt-updated" datetime="2025-02-21">21 February 2025</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://dylanvanassche.github.io/rdf-ts-snippets-spec/">https://dylanvanassche.github.io/rdf-ts-snippets-spec/</a>
      <dt>Issue Tracking:
      <dd><a href="https://github.com/dylanvanassche/rdf-ts-snippets-spec/issues/">GitHub</a>
+     <dd><a href="#issues-index">Inline In Spec</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard"><span class="p-name fn">Gerald Haesendonck</span>
      <dd class="editor p-author h-card vcard"><span class="p-name fn">Dylan Van Assche</span>
+     <dd class="editor p-author h-card vcard"><span class="p-name fn">[Pieter Colpaert](https://pietercolpaert.be/#me)</span>
     </dl>
    </div>
    <div data-fill-with="warning">
@@ -2162,7 +2197,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    </div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" height="15" src="https://licensebuttons.net/p/zero/1.0/80x15.png" width="80"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 19 February 2025,
+In addition, as of 21 February 2025,
 the editors have made this specification available under the <a href="https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2170,20 +2205,20 @@ Parts of this work may be from another specification document.  If so, those par
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>This document specifies how time series data with with only a few changing values
-can be described in RDF.</p>
+   <p>An RDF Time Series Snippet is a segment of data points from a time series dataset, typically used for analysis or visualization. The specification uses <a href="https://awslabs.github.io/SPARQL-CDTs/spec/latest.html">SPARQL Common Data Types</a> coined by AWS Lab to encode the data points in a values literal. The entity can then be used for annotating this snippet, which is a time interval subset of a potentially larger time series.</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
-    <li><a href="#abstract①"><span class="secno">1</span> <span class="content">Abstract</span></a>
-    <li><a href="#intro"><span class="secno">2</span> <span class="content">Introduction</span></a>
-    <li><a href="#definitions"><span class="secno">3</span> <span class="content">Definitions</span></a>
+    <li><a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+    <li><a href="#definitions"><span class="secno">2</span> <span class="content">Definitions</span></a>
     <li>
-     <a href="#properties"><span class="secno">4</span> <span class="content">Snippet properties</span></a>
+     <a href="#properties"><span class="secno">3</span> <span class="content">Snippet properties</span></a>
      <ol class="toc">
-      <li><a href="#points"><span class="secno">4.1</span> <span class="content">Points</span></a>
+      <li><a href="#paths"><span class="secno">3.1</span> <span class="content">Paths</span></a>
+      <li><a href="#points"><span class="secno">3.2</span> <span class="content">Data Points</span></a>
+      <li><a href="#extended-data-points"><span class="secno">3.3</span> <span class="content">Extended Data Points</span></a>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
@@ -2196,37 +2231,30 @@ can be described in RDF.</p>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
      </ol>
+    <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
   </nav>
   <main>
-   <h2 class="heading settled" data-level="1" id="abstract①"><span class="secno">1. </span><span class="content">Abstract</span><a class="self-link" href="#abstract①"></a></h2>
-   <p>A RDF Time Series Snippet is a subset of a Time Series described in RDF.
-Snippets aim to be more compact compared to RDFS Collection and Containers for
-describing Time Series by levering the <a href="https://w3id.org/awslabs/neptune/SPARQL-CDTs/spec/latest.html">Common Data Types</a>.</p>
-   <h2 class="heading settled" data-level="2" id="intro"><span class="secno">2. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
-   <p>Sensor measurements, positioning data, etc. are commonly published as Time Series
-data with a timestamp and a value. 
-Representing Time Series data in RDF drastically raises the verbosity,
-which Time Series Snippets try to address by compacting the data points in subsets of a Time Series
-through Common Data Types such as <code>cdt:List</code> and <code>cdt:Map</code>.</p>
-   <p class="note" role="note"><span class="marker">Note:</span> Time Series Snippets can always be expanded into RDF without the need for Common Data Types.</p>
-   <p>The following example shows a set of sensor values with Snippets and afterwards expanded to RDF:</p>
+   <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
+   <p>Sensor observations, positioning data, measurements, mobility information... are commonly published as Time Series data with a timestamp and a value.
+Representing Time Series data in RDF drastically raises the verbosity, as each data point is often given its own identifier, for which contextual information is repeated on all data points.
+With Time Series Snippets, we allow a data publisher to compact the data points in subsets of a Time Series, called the Snippet, by using <a href="https://awslabs.github.io/SPARQL-CDTs/spec/latest.html">SPARQL Common Data Types</a> such as <code>cdt:List</code> and <code>cdt:Map</code>.
+A first example illustrates the features of a <code>tss:Snippet</code>:</p>
    <div class="example" id="simple_example_snippet">
     <a class="self-link" href="#simple_example_snippet"></a> 
-<pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
+<pre class="language-turtle highlight"><c- g>&lt;snippet/2026-01-01></c->
   <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
-    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.4"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"0"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
-    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"1"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
-    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T08:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
-    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T09:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"6.1"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"3"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>integer</c-><c- p>},</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2026-01-01T06:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.4"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"0"</c-><c- p>},</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2026-01-01T06:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"1"</c-><c- p>},</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2026-01-01T08:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"2"</c-><c- p>},</c->
+    <c- p>{</c-> <c- s>"time"</c-><c- p>:</c-> <c- s>"2026-01-01T09:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>,</c-> <c- s>"value"</c-><c- p>:</c-> <c- s>"6.1"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c-> <c- s>"id"</c-><c- p>:</c-> <c- s>"3"</c-><c- p>},</c->
   <c- p>]</c-><c- s>"^^cdt:List;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2026-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2026-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>pointType</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>timePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>identifierPath</c-> <c- nn>dcterms</c-><c- p>:</c-><c- f>identifier</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c->
     <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-><c- p>;</c->
     <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- g>&lt;temperature></c-><c- p>;</c->
@@ -2234,50 +2262,52 @@ through Common Data Types such as <code>cdt:List</code> and <code>cdt:Map</code>
 <c- p>.</c->
 </pre>
    </div>
+   <p>The intention of Time Series <a data-link-type="dfn" href="#snippet" id="ref-for-snippet">Snippets</a> is to be a lossless format as, if needed, it can be expanded again.
+Example 1 for example can be expanded to this RDF dataset:</p>
    <div class="example" id="simple_example_rdf">
     <a class="self-link" href="#simple_example_rdf"></a> 
-<pre class="language-turtle highlight"><c- g>&lt;temperature/1></c->
+<pre class="language-turtle highlight"><c- g>&lt;0></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"5.4"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2026-01-01T06:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 
-<c- g>&lt;temperature/2></c->
+<c- g>&lt;1></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T06:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2026-01-01T06:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 
-<c- g>&lt;temperature/3></c->
+<c- g>&lt;2></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"5.2"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T08:00:02Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2026-01-01T08:00:02Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 
-<c- g>&lt;temperature/4></c->
+<c- g>&lt;3></c->
   <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-> <c- s>"6.1"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>decimal</c-> <c- p>;</c->
   <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty:</c-> <c- g>&lt;temperature></c-> <c- p>;</c->
-  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2024-01-01T09:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
+  <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2026-01-01T09:00:00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
 </pre>
    </div>
-   <h2 class="heading settled" data-level="3" id="definitions"><span class="secno">3. </span><span class="content">Definitions</span><a class="self-link" href="#definitions"></a></h2>
+   <h2 class="heading settled" data-level="2" id="definitions"><span class="secno">2. </span><span class="content">Definitions</span><a class="self-link" href="#definitions"></a></h2>
    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="time-series">Time Series</dfn> is a set of data points ordered by timestamp, where each data point consists of a timestamp and corresponding value.</p>
-   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="snippet">Snippet</dfn> describes a subset of a Time Series within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.</p>
-   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="data-point">Data Point</dfn> is a single point of a Time Series containing an ISO timestamp, a value with datatype, and optionally an identifier.</p>
-   <h2 class="heading settled" data-level="4" id="properties"><span class="secno">4. </span><span class="content">Snippet properties</span><a class="self-link" href="#properties"></a></h2>
-   <p>Each Snippet has the following properties:</p>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="snippet">Snippet</dfn> describes a subset of a <a data-link-type="dfn" href="#time-series" id="ref-for-time-series">Time Series</a> within a certain period defined by a start and end timestamp, and a description of the entity providing the data points.</p>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="data-point">Data Point</dfn> is a single point of a <a data-link-type="dfn" href="#time-series" id="ref-for-time-series①">Time Series</a> containing an ISO timestamp, a value with datatype, and optionally an identifier.</p>
+   <h2 class="heading settled" data-level="3" id="properties"><span class="secno">3. </span><span class="content">Snippet properties</span><a class="self-link" href="#properties"></a></h2>
+   <p>Each <a data-link-type="dfn" href="#snippet" id="ref-for-snippet①">Snippet</a> SHOULD have the following properties:</p>
    <ul>
     <li data-md>
      <p><code>tss:points</code>: a <code>cdt:List</code> of data points where each data point is a <code>cdt:Map</code>.</p>
     <li data-md>
-     <p><code>tss:from</code>: start ISO timestamp (including) of the period covered by <code>tss:points</code>.</p>
+     <p><code>tss:from</code>: starting timestamp (including) of the period covered by <code>tss:points</code>.</p>
     <li data-md>
-     <p><code>tss:to</code>: end ISO timestamp (excluding) of the period covered by <code>tss:points</code>.</p>
+     <p><code>tss:until</code>: until this timestamp (excluding) of the period covered by <code>tss:points</code>.</p>
     <li data-md>
      <p><code>tss:about</code>: an entity description which provides the data points in <code>tss:points</code>.</p>
     <li data-md>
@@ -2286,40 +2316,52 @@ through Common Data Types such as <code>cdt:List</code> and <code>cdt:Map</code>
      <p><code>tss:timePath</code>: the term to use for expanding the <code>time</code> property in <code>tss:points</code>.</p>
     <li data-md>
      <p><code>tss:valuePath</code>: the term to use for expanding the <code>value</code> property in <code>tss:points</code>.</p>
-    <li data-md>
-     <p><code>tss:identifierPath</code>: the term to use for expanding the optional <code>id</code> property in <code>tss:points</code>.</p>
    </ul>
-   <p>All properties are required except <code>tss:identifierPath</code>.</p>
-   <h3 class="heading settled" data-level="4.1" id="points"><span class="secno">4.1. </span><span class="content">Points</span><a class="self-link" href="#points"></a></h3>
-   <p><code>tss:points</code> MUST have a <code>cdt:List</code> as datatype. Each point itself MUST be a <code>cdt:Map</code> consisting
+   <p class="issue" id="issue-3026d520"><a class="self-link" href="#issue-3026d520"></a> Discuss whether these properties are required or optional. E.g., a publisher might decide to do a lossy conversion for their goal, and not include valuePath, pointType and timePath. However, we can still analyze and visualize the data without that information.</p>
+   <h3 class="heading settled" data-level="3.1" id="paths"><span class="secno">3.1. </span><span class="content">Paths</span><a class="self-link" href="#paths"></a></h3>
+   <p>A <a data-link-type="dfn" href="#snippet" id="ref-for-snippet②">Snippet</a> has multiple path descriptions to define the mapping between CDT and RDF.
+Each of these path descriptions expect an RDF term to use during expansion.
+If nested CDT are used, multiple path descriptions MAY be described, each of type <code>tss:Path</code>.</p>
+   <p>A <code>tss:Path</code> MUST have the following properties:</p>
+   <ul>
+    <li data-md>
+     <p><code>tss:term</code>: the RDF term to use during expansion of the path.</p>
+    <li data-md>
+     <p><code>tss:path</code>: the property name to match with the RDF term.</p>
+   </ul>
+   <p class="note" role="note"><span class="marker">Note:</span> Using the RDF term directly for paths is a shortcut of <code>tss:Path</code> which can only be used when a simple datatypes are present.</p>
+   <h3 class="heading settled" data-level="3.2" id="points"><span class="secno">3.2. </span><span class="content">Data Points</span><a class="self-link" href="#points"></a></h3>
+   <p><code>tss:points</code> MUST have a <code>cdt:List</code> as datatype. Each <a data-link-type="dfn" href="#data-point" id="ref-for-data-point">Data Point</a> itself MUST be a <code>cdt:Map</code> consisting
 of 2 required properties and 1 optional property:</p>
    <ul>
     <li data-md>
-     <p><code>time</code>: the ISO timestamp of the data point (<code>xsd:dateTime</code>).</p>
+     <p><code>time</code>: the <code>xsd:dateTime</code> of the data point</p>
     <li data-md>
      <p><code>value</code>: the value of the data point with corresponding datatype.</p>
     <li data-md>
-     <p><code>id</code>: the data point identifier, optionally.</p>
+     <p><code>id</code>: the data point identifier, optionally (must be a named node).</p>
    </ul>
    <p>All properties of datapoints are expandable to RDF, the RDF terms to use are defined through the path descriptions of a Snippet.</p>
    <div class="example" id="ex_points">
     <a class="self-link" href="#ex_points"></a> 
 <pre class="language-json highlight"><c- p>[</c->
-    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T06:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.4"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"0"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
-    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T06:59:59Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.2"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"1"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
-    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T08:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.2"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"2"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
-    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2024-01-01T09:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"6.1"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"3"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2026-01-01T06:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.4"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"0"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2026-01-01T06:59:59Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.2"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"1"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2026-01-01T08:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"5.2"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"2"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
+    <c- p>{</c-> <c- f>"time"</c-><c- p>:</c-> <c- u>"2026-01-01T09:00:00Z"</c->^^xsd<c- p>:</c->da<c- kc>te</c->Time<c- p>,</c-> <c- f>"value"</c-><c- p>:</c-> <c- u>"6.1"</c->^^xsd<c- p>:</c->double<c- p>,</c-> <c- f>"id"</c-><c- p>:</c-> <c- u>"3"</c->^^xsd<c- p>:</c->i<c- kc>nte</c->ger <c- p>},</c->
 <c- p>]</c->
 </pre>
    </div>
-   <p>Points can have extended values as well such as <code>cdt:Map</code> to allow complex values to be included:</p>
+   <h3 class="heading settled" data-level="3.3" id="extended-data-points"><span class="secno">3.3. </span><span class="content">Extended Data Points</span><a class="self-link" href="#extended-data-points"></a></h3>
+   <p><a data-link-type="dfn" href="#data-point" id="ref-for-data-point①">Data Point</a>s can have extended values as well such as <code>cdt:Map</code> to allow complex values to be included.
+The RDF expansion is defined for each property in the <code>cdt:Map</code> by a <code>tss:Path</code>:</p>
    <div class="example" id="ex_snippet_advanced_ttl">
     <a class="self-link" href="#ex_snippet_advanced_ttl"></a> 
-<pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
+<pre class="language-turtle highlight"><c- g>&lt;snippet/2026-01-01></c->
   <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
     <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>,</c->
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2026-01-01T06:00:00Z"</c-><c- p>,</c->
       <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
         <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
         <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
@@ -2327,7 +2369,7 @@ of 2 required properties and 1 optional property:</p>
       <c- p>}</c-><c- s>"^^cdt:Map</c->
     <c- p>},</c->
     <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T07:00:00Z"</c-><c- p>,</c->
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2026-01-01T07:00:00Z"</c-><c- p>,</c->
       <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
         <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
         <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
@@ -2335,7 +2377,7 @@ of 2 required properties and 1 optional property:</p>
       <c- p>}</c-><c- s>"^^cdt:Map</c->
     <c- p>},</c->
     <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T08:00:00Z"</c-><c- p>,</c->
+      <c- s>"time"</c-><c- p>:</c-> <c- s>"2026-01-01T08:00:00Z"</c-><c- p>,</c->
       <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
         <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
         <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
@@ -2343,8 +2385,8 @@ of 2 required properties and 1 optional property:</p>
       <c- p>}</c-><c- s>"^^cdt:Map</c->
     <c- p>}</c->
   <c- p>]</c-><c- s>"^^cdt:List;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2026-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
+  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2026-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>pointType</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>timePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-><c- p>;</c->
   <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-><c- p>;</c->
@@ -2355,59 +2397,6 @@ of 2 required properties and 1 optional property:</p>
 <c- p>.</c->
 </pre>
    </div>
-   <p class="note" role="note"><span class="marker">Note:</span> this is incompatible with paths! A possibility here is to allow the following:</p>
-<pre class="language-turtle highlight"><c- g>&lt;snippet/2024-01-01></c->
-  <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Snippet</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>points</c-> <c- s>"[</c->
-    <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T06:00:00Z"</c-><c- p>,</c->
-      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
-        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.000000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"5.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
-      <c- p>}</c-><c- s>"^^cdt:Map</c->
-    <c- p>},</c->
-    <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T07:00:00Z"</c-><c- p>,</c->
-      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
-        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.100000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"7.61"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
-      <c- p>}</c-><c- s>"^^cdt:Map</c->
-    <c- p>},</c->
-    <c- p>{</c-> 
-      <c- s>"time"</c-><c- p>:</c-> <c- s>"2024-01-01T08:00:00Z"</c-><c- p>,</c->
-      <c- s>"value"</c-><c- p>:</c-> <c- s>"{</c->
-        <c- s>"latitude"</c-><c- p>:</c-> <c- s>"50.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"longitude"</c-><c- p>:</c-> <c- s>"4.200000"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c-><c- p>,</c->
-        <c- s>"temperature"</c-><c- p>:</c-> <c- s>"4.21"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>double</c->
-      <c- p>}</c-><c- s>"^^cdt:Map</c->
-    <c- p>}</c->
-  <c- p>]</c-><c- s>"^^cdt:List;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>from</c-> <c- s>"2024-01-01T00:00.00Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>until</c-> <c- s>"2024-01-01T23:59:59Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>pointType</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>timePath</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Path</c->
-    <c- nn>tss</c-><c- p>:</c-><c- f>path</c-> <c- s>"latitude"</c-><c- p>;</c->
-    <c- nn>tss</c-><c- p>:</c-><c- f>term</c-> <c- nn>geo</c-><c- p>:</c-><c- f>latitude</c-><c- p>;</c->
-  <c- p>];</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Path</c->
-    <c- nn>tss</c-><c- p>:</c-><c- f>path</c-> <c- s>"longitude"</c-><c- p>;</c->
-    <c- nn>tss</c-><c- p>:</c-><c- f>term</c-> <c- nn>geo</c-><c- p>:</c-><c- f>longitude</c-><c- p>;</c->
-  <c- p>];</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>valuePath</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>tss</c-><c- p>:</c-><c- f>Path</c->
-    <c- nn>tss</c-><c- p>:</c-><c- f>path</c-> <c- s>"temperature"</c-><c- p>;</c->
-    <c- nn>tss</c-><c- p>:</c-><c- f>term</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>hasSimpleResult</c-><c- p>;</c->
-  <c- p>];</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>identifierPath</c-> <c- nn>dcterms</c-><c- p>:</c-><c- f>identifier</c-><c- p>;</c->
-  <c- nn>tss</c-><c- p>:</c-><c- f>about</c-> <c- p>[</c->
-    <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;temp_sensor_1></c-><c- p>;</c->
-    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- g>&lt;temperature></c-><c- p>;</c->
-  <c- p>];</c->
-<c- p>.</c->
-</pre>
-   <p>Specifying the term immediately is a shortcut for defining a full <code>tss:Path</code>.</p>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -2558,9 +2547,9 @@ of 2 required properties and 1 optional property:</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#data-point">Data Point</a><span>, in § 3</span>
-   <li><a href="#snippet">Snippet</a><span>, in § 3</span>
-   <li><a href="#time-series">Time Series</a><span>, in § 3</span>
+   <li><a href="#data-point">Data Point</a><span>, in § 2</span>
+   <li><a href="#snippet">Snippet</a><span>, in § 2</span>
+   <li><a href="#time-series">Time Series</a><span>, in § 2</span>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
@@ -2568,6 +2557,10 @@ of 2 required properties and 1 optional property:</p>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
   </dl>
+  <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
+  <div style="counter-reset:issue">
+   <div class="issue"> Discuss whether these properties are required or optional. E.g., a publisher might decide to do a lossy conversion for their goal, and not include valuePath, pointType and timePath. However, we can still analyze and visualize the data without that information. <a class="issue-return" href="#issue-3026d520" title="Jump to section">↵</a></div>
+  </div>
 <script>/* Boilerplate: script-dom-helper */
 "use strict";
 function query(sel) { return document.querySelector(sel); }
@@ -2768,9 +2761,9 @@ function parseHTML(markup) {
 "use strict";
 {
 let dfnPanelData = {
-"data-point": {"dfnID":"data-point","dfnText":"Data Point","external":false,"refSections":[],"url":"#data-point"},
-"snippet": {"dfnID":"snippet","dfnText":"Snippet","external":false,"refSections":[],"url":"#snippet"},
-"time-series": {"dfnID":"time-series","dfnText":"Time Series","external":false,"refSections":[],"url":"#time-series"},
+"data-point": {"dfnID":"data-point","dfnText":"Data Point","external":false,"refSections":[{"refs":[{"id":"ref-for-data-point"}],"title":"3.2. Data Points"},{"refs":[{"id":"ref-for-data-point\u2460"}],"title":"3.3. Extended Data Points"}],"url":"#data-point"},
+"snippet": {"dfnID":"snippet","dfnText":"Snippet","external":false,"refSections":[{"refs":[{"id":"ref-for-snippet"}],"title":"1. Introduction"},{"refs":[{"id":"ref-for-snippet\u2460"}],"title":"3. Snippet properties"},{"refs":[{"id":"ref-for-snippet\u2461"}],"title":"3.1. Paths"}],"url":"#snippet"},
+"time-series": {"dfnID":"time-series","dfnText":"Time Series","external":false,"refSections":[{"refs":[{"id":"ref-for-time-series"},{"id":"ref-for-time-series\u2460"}],"title":"2. Definitions"}],"url":"#time-series"},
 };
 
 document.addEventListener("DOMContentLoaded", ()=>{
@@ -3153,5 +3146,210 @@ function genLinkingSyntaxes(dfn) {
         )
     ];
 }
+}
+</script>
+<script>/* Boilerplate: script-ref-hints */
+"use strict";
+{
+let refsData = {
+"#data-point": {"displayText":"data point","export":true,"for_":[],"level":"","normative":true,"shortname":"rdf-ts-snippets","spec":"rdf-ts-snippets","status":"local","text":"data point","type":"dfn","url":"#data-point"},
+"#snippet": {"displayText":"snippet","export":true,"for_":[],"level":"","normative":true,"shortname":"rdf-ts-snippets","spec":"rdf-ts-snippets","status":"local","text":"snippet","type":"dfn","url":"#snippet"},
+"#time-series": {"displayText":"time series","export":true,"for_":[],"level":"","normative":true,"shortname":"rdf-ts-snippets","spec":"rdf-ts-snippets","status":"local","text":"time series","type":"dfn","url":"#time-series"},
+};
+
+function mkRefHint(link, ref) {
+    const linkText = link.textContent;
+    let dfnTextElements = '';
+    if (ref.displayText.toLowerCase() != linkText.toLowerCase()) {
+        // Give the original term if it's being displayed in a different way.
+        // But allow casing differences, they're insignificant.
+        dfnTextElements =
+            mk.li({},
+                mk.b({}, "Term: "),
+                mk.span({}, ref.displayText)
+            );
+    }
+    const forList = ref.for_;
+    let forListElements;
+    if(forList.length == 0) {
+        forListElements = [];
+    } else if(forList.length == 1) {
+        forListElements = mk.li({},
+            mk.b({}, "For: "),
+            mk.span({}, forList[0]),
+        );
+    } else {
+        forListElements = mk.li({},
+            mk.b({}, "For: "),
+            mk.ul({},
+                ...forList.map(forItem =>
+                    mk.li({},
+                        mk.span({}, forItem)
+                    ),
+                ),
+            ),
+        );
+    }
+    const url = ref.url;
+    const safeUrl = encodeURIComponent(url);
+    const hintPanel = mk.aside({
+        class: "ref-hint",
+        id: `ref-hint-for-${safeUrl}`,
+        "data-for": url,
+        "aria-labelled-by": `ref-hint-for-${safeUrl}`,
+    },
+        mk.ul({},
+            dfnTextElements,
+            mk.li({},
+                mk.b({}, "URL: "),
+                mk.a({ href: url, class: "ref" }, url),
+            ),
+            mk.li({},
+                mk.b({}, "Type: "),
+                mk.span({}, `${ref.type}`),
+            ),
+            mk.li({},
+                mk.b({}, "Spec: "),
+                mk.span({}, `${ref.spec ? ref.spec : ''}`),
+            ),
+            forListElements
+        ),
+    );
+    hintPanel.forLink = link;
+    setupRefHintEventListeners(link, hintPanel);
+    return hintPanel;
+}
+
+function hideAllRefHints() {
+    queryAll(".ref-hint").forEach(el=>hideRefHint(el));
+}
+
+function hideRefHint(refHint) {
+    const link = refHint.forLink;
+    link.setAttribute("aria-expanded", "false");
+    if(refHint.teardownEventListeners) {
+        refHint.teardownEventListeners();
+    }
+    refHint.remove();
+}
+
+function showRefHint(link) {
+    if(link.classList.contains("dfn-link")) return;
+    const url = link.getAttribute("href");
+    const ref = refsData[url];
+    if(!ref) return;
+
+    hideAllRefHints(); // Only display one at this time.
+
+    const refHint = mkRefHint(link, ref);
+    append(document.body, refHint);
+    link.setAttribute("aria-expanded", "true");
+    positionRefHint(refHint);
+}
+
+function setupRefHintEventListeners(link, refHint) {
+    if (refHint.teardownEventListeners) return;
+    // Add event handlers to hide the refHint after the user moves away
+    // from both the link and refHint, if not hovering either within one second.
+    let timeout = null;
+    const startHidingRefHint = (event) => {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(() => {
+            hideRefHint(refHint);
+        }, 1000);
+    }
+    const resetHidingRefHint = (event) => {
+        if (timeout) clearTimeout(timeout);
+        timeout = null;
+    };
+    link.addEventListener("mouseleave", startHidingRefHint);
+    link.addEventListener("mouseenter", resetHidingRefHint);
+    link.addEventListener("blur", startHidingRefHint);
+    link.addEventListener("focus", resetHidingRefHint);
+    refHint.addEventListener("mouseleave", startHidingRefHint);
+    refHint.addEventListener("mouseenter", resetHidingRefHint);
+    refHint.addEventListener("blur", startHidingRefHint);
+    refHint.addEventListener("focus", resetHidingRefHint);
+
+    refHint.teardownEventListeners = () => {
+        // remove event listeners
+        resetHidingRefHint();
+        link.removeEventListener("mouseleave", startHidingRefHint);
+        link.removeEventListener("mouseenter", resetHidingRefHint);
+        link.removeEventListener("blur", startHidingRefHint);
+        link.removeEventListener("focus", resetHidingRefHint);
+        refHint.removeEventListener("mouseleave", startHidingRefHint);
+        refHint.removeEventListener("mouseenter", resetHidingRefHint);
+        refHint.removeEventListener("blur", startHidingRefHint);
+        refHint.removeEventListener("focus", resetHidingRefHint);
+    };
+}
+
+function positionRefHint(refHint) {
+    const link = refHint.forLink;
+    const linkPos = getBounds(link);
+    refHint.style.top = linkPos.bottom + "px";
+    refHint.style.left = linkPos.left + "px";
+
+    const panelPos = refHint.getBoundingClientRect();
+    const panelMargin = 8;
+    const maxRight = document.body.parentNode.clientWidth - panelMargin;
+    if (panelPos.right > maxRight) {
+        const overflowAmount = panelPos.right - maxRight;
+        const newLeft = Math.max(panelMargin, linkPos.left - overflowAmount);
+        refHint.style.left = newLeft + "px";
+    }
+}
+
+// TODO: shared util
+// Returns the root-level absolute position {left and top} of element.
+function getBounds(el, relativeTo=document.body) {
+    const relativeRect = relativeTo.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const top = elRect.top - relativeRect.top;
+    const left = elRect.left - relativeRect.left;
+    return {
+        top,
+        left,
+        bottom: top + elRect.height,
+        right: left + elRect.width,
+    }
+}
+
+function showRefHintListener(e) {
+    // If the target isn't in a link (or is a link),
+    // just ignore it.
+    let link = e.target.closest("a");
+    if(!link) return;
+
+    // If the target is in a ref-hint panel
+    // (aka a link in the already-open one),
+    // also just ignore it.
+    if(link.closest(".ref-hint")) return;
+
+    // Otherwise, show the panel for the link.
+    showRefHint(link);
+}
+
+function hideAllHintsListener(e) {
+    // If the click is inside a ref-hint panel, ignore it.
+    if(e.target.closest(".ref-hint")) return;
+    // Otherwise, close all the current panels.
+    hideAllRefHints();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.addEventListener("mousedown", showRefHintListener);
+    document.body.addEventListener("focus", showRefHintListener);
+
+    document.body.addEventListener("click", hideAllHintsListener);
+});
+
+window.addEventListener("resize", () => {
+    // Hide any open ref hint.
+    hideAllRefHints();
+});
 }
 </script>
