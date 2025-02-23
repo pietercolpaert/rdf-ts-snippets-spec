@@ -1,0 +1,125 @@
+### RDF-TSS with 100 observations ###
+##
+## Uncompressed length: 9889 characters
+## Compressed length: 1484 characters
+## Length difference: 8405 characters
+## Number of triples: 9
+
+@prefix tss: <https://w3id.org/tss#> .
+@prefix xsd: <https://w3id.org/tss#> .
+@prefix sosa: <https://w3id.org/tss#> .
+@prefix cdt: <https://> .
+<snippet/2026-01-01>
+  a tss:Snippet;
+  tss:points """
+{ "time": "2025-02-23T06:53:22.637Z"^^xsd:dateTime, "value": "50"^^xsd:double, "id": "0"},
+{ "time": "2025-02-23T06:53:23.637Z"^^xsd:dateTime, "value": "50.1"^^xsd:double, "id": "1"},
+{ "time": "2025-02-23T06:53:24.637Z"^^xsd:dateTime, "value": "50.2"^^xsd:double, "id": "2"},
+{ "time": "2025-02-23T06:53:25.637Z"^^xsd:dateTime, "value": "50.3"^^xsd:double, "id": "3"},
+{ "time": "2025-02-23T06:53:26.637Z"^^xsd:dateTime, "value": "50.4"^^xsd:double, "id": "4"},
+{ "time": "2025-02-23T06:53:27.637Z"^^xsd:dateTime, "value": "50.5"^^xsd:double, "id": "5"},
+{ "time": "2025-02-23T06:53:28.637Z"^^xsd:dateTime, "value": "50.6"^^xsd:double, "id": "6"},
+{ "time": "2025-02-23T06:53:29.637Z"^^xsd:dateTime, "value": "50.7"^^xsd:double, "id": "7"},
+{ "time": "2025-02-23T06:53:30.638Z"^^xsd:dateTime, "value": "50.8"^^xsd:double, "id": "8"},
+{ "time": "2025-02-23T06:53:31.638Z"^^xsd:dateTime, "value": "50.9"^^xsd:double, "id": "9"},
+{ "time": "2025-02-23T06:53:32.638Z"^^xsd:dateTime, "value": "51"^^xsd:double, "id": "10"},
+{ "time": "2025-02-23T06:53:33.638Z"^^xsd:dateTime, "value": "51.1"^^xsd:double, "id": "11"},
+{ "time": "2025-02-23T06:53:34.638Z"^^xsd:dateTime, "value": "51.2"^^xsd:double, "id": "12"},
+{ "time": "2025-02-23T06:53:35.638Z"^^xsd:dateTime, "value": "51.3"^^xsd:double, "id": "13"},
+{ "time": "2025-02-23T06:53:36.638Z"^^xsd:dateTime, "value": "51.4"^^xsd:double, "id": "14"},
+{ "time": "2025-02-23T06:53:37.638Z"^^xsd:dateTime, "value": "51.5"^^xsd:double, "id": "15"},
+{ "time": "2025-02-23T06:53:38.638Z"^^xsd:dateTime, "value": "51.6"^^xsd:double, "id": "16"},
+{ "time": "2025-02-23T06:53:39.638Z"^^xsd:dateTime, "value": "51.7"^^xsd:double, "id": "17"},
+{ "time": "2025-02-23T06:53:40.638Z"^^xsd:dateTime, "value": "51.8"^^xsd:double, "id": "18"},
+{ "time": "2025-02-23T06:53:41.638Z"^^xsd:dateTime, "value": "51.9"^^xsd:double, "id": "19"},
+{ "time": "2025-02-23T06:53:42.638Z"^^xsd:dateTime, "value": "52"^^xsd:double, "id": "20"},
+{ "time": "2025-02-23T06:53:43.638Z"^^xsd:dateTime, "value": "52.1"^^xsd:double, "id": "21"},
+{ "time": "2025-02-23T06:53:44.638Z"^^xsd:dateTime, "value": "52.2"^^xsd:double, "id": "22"},
+{ "time": "2025-02-23T06:53:45.638Z"^^xsd:dateTime, "value": "52.3"^^xsd:double, "id": "23"},
+{ "time": "2025-02-23T06:53:46.638Z"^^xsd:dateTime, "value": "52.4"^^xsd:double, "id": "24"},
+{ "time": "2025-02-23T06:53:47.638Z"^^xsd:dateTime, "value": "52.5"^^xsd:double, "id": "25"},
+{ "time": "2025-02-23T06:53:48.638Z"^^xsd:dateTime, "value": "52.6"^^xsd:double, "id": "26"},
+{ "time": "2025-02-23T06:53:49.638Z"^^xsd:dateTime, "value": "52.7"^^xsd:double, "id": "27"},
+{ "time": "2025-02-23T06:53:50.638Z"^^xsd:dateTime, "value": "52.8"^^xsd:double, "id": "28"},
+{ "time": "2025-02-23T06:53:51.638Z"^^xsd:dateTime, "value": "52.9"^^xsd:double, "id": "29"},
+{ "time": "2025-02-23T06:53:52.638Z"^^xsd:dateTime, "value": "53"^^xsd:double, "id": "30"},
+{ "time": "2025-02-23T06:53:53.638Z"^^xsd:dateTime, "value": "53.1"^^xsd:double, "id": "31"},
+{ "time": "2025-02-23T06:53:54.638Z"^^xsd:dateTime, "value": "53.2"^^xsd:double, "id": "32"},
+{ "time": "2025-02-23T06:53:55.638Z"^^xsd:dateTime, "value": "53.3"^^xsd:double, "id": "33"},
+{ "time": "2025-02-23T06:53:56.638Z"^^xsd:dateTime, "value": "53.4"^^xsd:double, "id": "34"},
+{ "time": "2025-02-23T06:53:57.638Z"^^xsd:dateTime, "value": "53.5"^^xsd:double, "id": "35"},
+{ "time": "2025-02-23T06:53:58.638Z"^^xsd:dateTime, "value": "53.6"^^xsd:double, "id": "36"},
+{ "time": "2025-02-23T06:53:59.639Z"^^xsd:dateTime, "value": "53.7"^^xsd:double, "id": "37"},
+{ "time": "2025-02-23T06:54:00.639Z"^^xsd:dateTime, "value": "53.8"^^xsd:double, "id": "38"},
+{ "time": "2025-02-23T06:54:01.639Z"^^xsd:dateTime, "value": "53.9"^^xsd:double, "id": "39"},
+{ "time": "2025-02-23T06:54:02.639Z"^^xsd:dateTime, "value": "54"^^xsd:double, "id": "40"},
+{ "time": "2025-02-23T06:54:03.639Z"^^xsd:dateTime, "value": "54.1"^^xsd:double, "id": "41"},
+{ "time": "2025-02-23T06:54:04.639Z"^^xsd:dateTime, "value": "54.2"^^xsd:double, "id": "42"},
+{ "time": "2025-02-23T06:54:05.639Z"^^xsd:dateTime, "value": "54.3"^^xsd:double, "id": "43"},
+{ "time": "2025-02-23T06:54:06.639Z"^^xsd:dateTime, "value": "54.4"^^xsd:double, "id": "44"},
+{ "time": "2025-02-23T06:54:07.639Z"^^xsd:dateTime, "value": "54.5"^^xsd:double, "id": "45"},
+{ "time": "2025-02-23T06:54:08.639Z"^^xsd:dateTime, "value": "54.6"^^xsd:double, "id": "46"},
+{ "time": "2025-02-23T06:54:09.639Z"^^xsd:dateTime, "value": "54.7"^^xsd:double, "id": "47"},
+{ "time": "2025-02-23T06:54:10.639Z"^^xsd:dateTime, "value": "54.8"^^xsd:double, "id": "48"},
+{ "time": "2025-02-23T06:54:11.639Z"^^xsd:dateTime, "value": "54.9"^^xsd:double, "id": "49"},
+{ "time": "2025-02-23T06:54:12.639Z"^^xsd:dateTime, "value": "55"^^xsd:double, "id": "50"},
+{ "time": "2025-02-23T06:54:13.639Z"^^xsd:dateTime, "value": "55.1"^^xsd:double, "id": "51"},
+{ "time": "2025-02-23T06:54:14.639Z"^^xsd:dateTime, "value": "55.2"^^xsd:double, "id": "52"},
+{ "time": "2025-02-23T06:54:15.639Z"^^xsd:dateTime, "value": "55.3"^^xsd:double, "id": "53"},
+{ "time": "2025-02-23T06:54:16.639Z"^^xsd:dateTime, "value": "55.4"^^xsd:double, "id": "54"},
+{ "time": "2025-02-23T06:54:17.639Z"^^xsd:dateTime, "value": "55.5"^^xsd:double, "id": "55"},
+{ "time": "2025-02-23T06:54:18.639Z"^^xsd:dateTime, "value": "55.6"^^xsd:double, "id": "56"},
+{ "time": "2025-02-23T06:54:19.639Z"^^xsd:dateTime, "value": "55.7"^^xsd:double, "id": "57"},
+{ "time": "2025-02-23T06:54:20.639Z"^^xsd:dateTime, "value": "55.8"^^xsd:double, "id": "58"},
+{ "time": "2025-02-23T06:54:21.639Z"^^xsd:dateTime, "value": "55.9"^^xsd:double, "id": "59"},
+{ "time": "2025-02-23T06:54:22.639Z"^^xsd:dateTime, "value": "56"^^xsd:double, "id": "60"},
+{ "time": "2025-02-23T06:54:23.639Z"^^xsd:dateTime, "value": "56.1"^^xsd:double, "id": "61"},
+{ "time": "2025-02-23T06:54:24.639Z"^^xsd:dateTime, "value": "56.2"^^xsd:double, "id": "62"},
+{ "time": "2025-02-23T06:54:25.639Z"^^xsd:dateTime, "value": "56.3"^^xsd:double, "id": "63"},
+{ "time": "2025-02-23T06:54:26.639Z"^^xsd:dateTime, "value": "56.4"^^xsd:double, "id": "64"},
+{ "time": "2025-02-23T06:54:27.639Z"^^xsd:dateTime, "value": "56.5"^^xsd:double, "id": "65"},
+{ "time": "2025-02-23T06:54:28.639Z"^^xsd:dateTime, "value": "56.6"^^xsd:double, "id": "66"},
+{ "time": "2025-02-23T06:54:29.639Z"^^xsd:dateTime, "value": "56.7"^^xsd:double, "id": "67"},
+{ "time": "2025-02-23T06:54:30.639Z"^^xsd:dateTime, "value": "56.8"^^xsd:double, "id": "68"},
+{ "time": "2025-02-23T06:54:31.639Z"^^xsd:dateTime, "value": "56.9"^^xsd:double, "id": "69"},
+{ "time": "2025-02-23T06:54:32.639Z"^^xsd:dateTime, "value": "57"^^xsd:double, "id": "70"},
+{ "time": "2025-02-23T06:54:33.639Z"^^xsd:dateTime, "value": "57.1"^^xsd:double, "id": "71"},
+{ "time": "2025-02-23T06:54:34.639Z"^^xsd:dateTime, "value": "57.2"^^xsd:double, "id": "72"},
+{ "time": "2025-02-23T06:54:35.639Z"^^xsd:dateTime, "value": "57.3"^^xsd:double, "id": "73"},
+{ "time": "2025-02-23T06:54:36.639Z"^^xsd:dateTime, "value": "57.4"^^xsd:double, "id": "74"},
+{ "time": "2025-02-23T06:54:37.639Z"^^xsd:dateTime, "value": "57.5"^^xsd:double, "id": "75"},
+{ "time": "2025-02-23T06:54:38.639Z"^^xsd:dateTime, "value": "57.6"^^xsd:double, "id": "76"},
+{ "time": "2025-02-23T06:54:39.639Z"^^xsd:dateTime, "value": "57.7"^^xsd:double, "id": "77"},
+{ "time": "2025-02-23T06:54:40.639Z"^^xsd:dateTime, "value": "57.8"^^xsd:double, "id": "78"},
+{ "time": "2025-02-23T06:54:41.639Z"^^xsd:dateTime, "value": "57.9"^^xsd:double, "id": "79"},
+{ "time": "2025-02-23T06:54:42.639Z"^^xsd:dateTime, "value": "58"^^xsd:double, "id": "80"},
+{ "time": "2025-02-23T06:54:43.639Z"^^xsd:dateTime, "value": "58.1"^^xsd:double, "id": "81"},
+{ "time": "2025-02-23T06:54:44.639Z"^^xsd:dateTime, "value": "58.2"^^xsd:double, "id": "82"},
+{ "time": "2025-02-23T06:54:45.639Z"^^xsd:dateTime, "value": "58.3"^^xsd:double, "id": "83"},
+{ "time": "2025-02-23T06:54:46.639Z"^^xsd:dateTime, "value": "58.4"^^xsd:double, "id": "84"},
+{ "time": "2025-02-23T06:54:47.639Z"^^xsd:dateTime, "value": "58.5"^^xsd:double, "id": "85"},
+{ "time": "2025-02-23T06:54:48.639Z"^^xsd:dateTime, "value": "58.6"^^xsd:double, "id": "86"},
+{ "time": "2025-02-23T06:54:49.639Z"^^xsd:dateTime, "value": "58.7"^^xsd:double, "id": "87"},
+{ "time": "2025-02-23T06:54:50.639Z"^^xsd:dateTime, "value": "58.8"^^xsd:double, "id": "88"},
+{ "time": "2025-02-23T06:54:51.639Z"^^xsd:dateTime, "value": "58.9"^^xsd:double, "id": "89"},
+{ "time": "2025-02-23T06:54:52.639Z"^^xsd:dateTime, "value": "59"^^xsd:double, "id": "90"},
+{ "time": "2025-02-23T06:54:53.639Z"^^xsd:dateTime, "value": "59.1"^^xsd:double, "id": "91"},
+{ "time": "2025-02-23T06:54:54.639Z"^^xsd:dateTime, "value": "59.2"^^xsd:double, "id": "92"},
+{ "time": "2025-02-23T06:54:55.639Z"^^xsd:dateTime, "value": "59.3"^^xsd:double, "id": "93"},
+{ "time": "2025-02-23T06:54:56.639Z"^^xsd:dateTime, "value": "59.4"^^xsd:double, "id": "94"},
+{ "time": "2025-02-23T06:54:57.639Z"^^xsd:dateTime, "value": "59.5"^^xsd:double, "id": "95"},
+{ "time": "2025-02-23T06:54:58.639Z"^^xsd:dateTime, "value": "59.6"^^xsd:double, "id": "96"},
+{ "time": "2025-02-23T06:54:59.639Z"^^xsd:dateTime, "value": "59.7"^^xsd:double, "id": "97"},
+{ "time": "2025-02-23T06:55:00.639Z"^^xsd:dateTime, "value": "59.8"^^xsd:double, "id": "98"},
+{ "time": "2025-02-23T06:55:01.639Z"^^xsd:dateTime, "value": "59.9"^^xsd:double, "id": "99"},
+]"""^^cdt:List;
+  tss:from "2026-01-01T00:00.00Z"^^xsd:dateTime;
+  tss:until "2026-01-01T23:59:59Z"^^xsd:dateTime;
+  tss:pointType sosa:Observation;
+  tss:timePath sosa:resultTime;
+  tss:valuePath sosa:hasSimpleResult;
+  tss:about [
+    sosa:madeBySensor <temp_sensor_1>;
+    sosa:observedProperty <temperature>;
+  ];
+.
