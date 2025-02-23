@@ -11,3 +11,5 @@ Build the spec using [Bikeshed](https://speced.github.io/bikeshed):
 ```
 bikeshed spec spec.bs <output file>
 ```
+
+Install bikeshed with `pipx install bikeshed`
