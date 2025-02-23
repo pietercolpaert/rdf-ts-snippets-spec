@@ -25,10 +25,10 @@ A first example illustrates the features of a `tss:Snippet`:
 <snippet/2026-01-01>
   a tss:Snippet;
   tss:points "[
-    { "time": "2026-01-01T06:00:00Z"^^xsd:dateTime, "value": "5.4"^^xsd:double, "id": "0"},
-    { "time": "2026-01-01T06:59:59Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "1"},
-    { "time": "2026-01-01T08:00:00Z"^^xsd:dateTime, "value": "5.2"^^xsd:double, "id": "2"},
-    { "time": "2026-01-01T09:00:00Z"^^xsd:dateTime, "value": "6.1"^^xsd:double, "id": "3"},
+    { "time": "2026-01-01T06:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>, "value": "5.4"^^<http://www.w3.org/2001/XMLSchema#double>, "id": "0"},
+    { "time": "2026-01-01T06:59:59Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>, "value": "5.2"^^<http://www.w3.org/2001/XMLSchema#double>, "id": "1"},
+    { "time": "2026-01-01T08:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>, "value": "5.2"^^<http://www.w3.org/2001/XMLSchema#double>, "id": "2"},
+    { "time": "2026-01-01T09:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>, "value": "6.1"^^<http://www.w3.org/2001/XMLSchema#double>, "id": "3"},
   ]"^^cdt:List;
   tss:from "2026-01-01T00:00.00Z"^^xsd:dateTime;
   tss:until "2026-01-01T23:59:59Z"^^xsd:dateTime;
@@ -146,26 +146,26 @@ The RDF expansion is defined for each property in the `cdt:Map` by a `tss:Path`:
     { 
       "time": "2026-01-01T06:00:00Z",
       "value": "{
-        "latitude": "50.000000"^^xsd:double,
-        "longitude": "4.000000"^^xsd:double,
-        "temperature": "5.21"^^xsd:double
-      }"^^cdt:Map
+        "latitude": "50.000000"^^<http://www.w3.org/2001/XMLSchema#double>,
+        "longitude": "4.000000"^^<http://www.w3.org/2001/XMLSchema#double>,
+        "temperature": "5.21"^^<http://www.w3.org/2001/XMLSchema#double>
+      }"^^<http://w3id.org/awslabs/neptune/SPARQL-CDTs/Map>
     },
     { 
       "time": "2026-01-01T07:00:00Z",
       "value": "{
-        "latitude": "50.100000"^^xsd:double,
-        "longitude": "4.100000"^^xsd:double,
-        "temperature": "7.61"^^xsd:double
-      }"^^cdt:Map
+        "latitude": "50.100000"^^<http://www.w3.org/2001/XMLSchema#double>,
+        "longitude": "4.100000"^^<http://www.w3.org/2001/XMLSchema#double>,
+        "temperature": "7.61"^^<http://www.w3.org/2001/XMLSchema#double>
+      }"^^<http://w3id.org/awslabs/neptune/SPARQL-CDTs/Map>
     },
     { 
       "time": "2026-01-01T08:00:00Z",
       "value": "{
-        "latitude": "50.200000"^^xsd:double,
-        "longitude": "4.200000"^^xsd:double,
-        "temperature": "4.21"^^xsd:double
-      }"^^cdt:Map
+        "latitude": "50.200000"^^<http://www.w3.org/2001/XMLSchema#double>,
+        "longitude": "4.200000"^^<http://www.w3.org/2001/XMLSchema#double>,
+        "temperature": "4.21"^^<http://www.w3.org/2001/XMLSchema#double>
+      }"^^<http://w3id.org/awslabs/neptune/SPARQL-CDTs/Map>
     }
   ]"^^cdt:List;
   tss:from "2026-01-01T00:00.00Z"^^xsd:dateTime;
