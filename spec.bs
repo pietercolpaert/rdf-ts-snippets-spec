@@ -30,7 +30,7 @@ A first example illustrates the features of a `tss:Snippet`:
     { "time": "2026-01-01T08:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>, "value": "5.2"^^<http://www.w3.org/2001/XMLSchema#double>, "id": "2"},
     { "time": "2026-01-01T09:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>, "value": "6.1"^^<http://www.w3.org/2001/XMLSchema#double>, "id": "3"},
   ]"""^^cdt:List;
-  tss:from "2026-01-01T00:00.00Z"^^xsd:dateTime;
+  tss:from "2026-01-01T00:00:00Z"^^xsd:dateTime;
   tss:until "2026-01-01T23:59:59Z"^^xsd:dateTime;
   tss:pointType sosa:Observation;
   tss:timePath sosa:resultTime;
@@ -168,7 +168,7 @@ The RDF expansion is defined for each property in the `cdt:Map` by a `tss:Path`:
       }"^^<http://w3id.org/awslabs/neptune/SPARQL-CDTs/Map>
     }
   ]"""^^cdt:List;
-  tss:from "2026-01-01T00:00.00Z"^^xsd:dateTime;
+  tss:from "2026-01-01T00:00:00Z"^^xsd:dateTime;
   tss:until "2026-01-01T23:59:59Z"^^xsd:dateTime;
   tss:pointType sosa:Observation;
   tss:timePath sosa:resultTime;
